@@ -135,9 +135,9 @@
                     </li>
                 @endcan
 
-                <li>
-                    <a href="{{route('permissions.index')}}">Permissions</a>
-                </li>
+                {{--<li>--}}
+                    {{--<a href="{{route('permissions.index')}}">Permissions</a>--}}
+                {{--</li>--}}
             </ul>
         </li>
 
