@@ -5,6 +5,8 @@
     <link href="{{asset('assets/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css"/>
     <!-- Bootstrap Daterangepicker CSS -->
     <link href="{{asset('assets/vendors/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet" type="text/css"/>
+
+
 @endsection
 
 @section('main-section')
@@ -41,7 +43,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group {{ $errors->has('location') ? 'has-error' : '' }}">
                                             <label class="control-label mb-10 text-left">Location </label>
-                                            <input type="text" class="form-control map-input" name="location" id="address-input" value="{{old('location')}}">
+                                            <input type="text" class="form-control" name="location" id="txtPlaces" value="{{old('location')}}">
                                             @if ($errors->has('location'))
                                                 <span class="text-danger" >
                                                     <strong>{{ $errors->first('location') }}</strong>
@@ -192,8 +194,20 @@
 
     </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize" async defer></script>
-    <script src="{{asset('js/mapInput.js')}}"></script>
+    {{--<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize" async defer></script>--}}
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBr-MAhWkR_g1QlngFU8x6rUerxUYc3wgI&libraries=places"></script>
+
+    <script type="text/javascript">
+        google.maps.event.addDomListener(window, 'load', function () {
+            var places = new google.maps.places.Autocomplete(document.getElementById('txtPlaces'));
+            google.maps.event.addListener(places, 'place_changed', function () {
+
+            });
+        });
+    </script>
+
+    {{--<script src="{{asset('js/mapInput.js')}}"></script>--}}
 
 @endsection
 

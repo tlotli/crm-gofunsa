@@ -17,6 +17,7 @@
         "maddhatter/laravel-fullcalendar": "^1.3",
         "realrashid/sweet-alert": "^1.1",
         "softon/sweetalert": "^1.0",
+        "spatie/geocoder": "^3.4",
         "uxweb/sweet-alert": "^2.0",
         "vitorf7/lv-loadmorepagination": "^0.1.0"
     },

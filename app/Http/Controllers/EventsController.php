@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Softon\SweetAlert\Facades\SWAL;
 use Illuminate\Support\Facades\DB;
 use MaddHatter\LaravelFullcalendar\Facades\Calendar;
+use Spatie\Geocoder\Facades\Geocoder;
+
 
 class EventsController extends Controller
 {
@@ -53,6 +55,7 @@ class EventsController extends Controller
     public function store(Request $request)
     {
 
+
         $this->validate($request , [
         	'title' => 'required',
         	'start_date' => 'required',
@@ -68,13 +71,16 @@ class EventsController extends Controller
 		        'location.required' => 'Please provide event location',
 	    ]);
 
-        $event = new Event();
+
+	    $address = Geocoder::getCoordinatesForAddress($request->location);
+
+	    $event = new Event();
         $event->start_date = Carbon::parse($request->start_date);
         $event->end_date = Carbon::parse($request->end_date);
 		$event->title = $request->title ;
 		$event->location = $request->location ;
-		$event->address_latitude = $request->address_latitude ;
-		$event->address_longitude = $request->address_longitude ;
+		$event->address_latitude = $address['lat'] ;
+		$event->address_longitude = $address['lng'] ;
 		$event->notes = $request->notes ;
 		$event->user_id = Auth::id() ;
 		$event->save();
@@ -138,12 +144,17 @@ class EventsController extends Controller
 			    'location.required' => 'Please provide event location',
 		    ]);
 
+	    $address = Geocoder::getCoordinatesForAddress($request->location);
+
+
 	    $event = Event::find($id);
 	    $event_name = $event->title ;
 	    $event->start_date = Carbon::parse($request->start_date);
 	    $event->end_date = Carbon::parse($request->end_date);
 	    $event->title = $request->title ;
 	    $event->location = $request->location ;
+	    $event->address_latitude = $address['lat'] ;
+	    $event->address_longitude = $address['lng'] ;
 	    $event->notes = $request->notes ;
 	    $event->user_id = Auth::id() ;
 	    $event->save();

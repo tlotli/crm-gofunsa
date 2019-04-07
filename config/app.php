@@ -163,6 +163,9 @@ return [
         GoFunCrm\Providers\RouteServiceProvider::class,
 
 
+	    Spatie\Geocoder\GeocoderServiceProvider::class
+
+
 
     ],
 
@@ -216,6 +219,8 @@ return [
 //        'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
 
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+
+        'Geocoder' => Spatie\Geocoder\Facades\Geocoder::class,
 
     ],
 
