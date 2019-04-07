@@ -109,7 +109,7 @@
             <a href="javascript:void(0);" data-toggle="collapse" data-target="#ui_upload"><div class="pull-left"><i class="ti-upload mr-20 "></i><span class="right-nav-text">Manage Uploads</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
             <ul id="ui_upload" class="collapse collapse-level-1 two-col-list">
                 <li>
-                    <a  href="{{route('upload_view')}}">Upload Business Owners</a>
+                    {{--<a  href="{{route('upload_view')}}">Upload Business Owners</a>--}}
                     {{--<a  href="{{url('export')}}">Upload Stock Sold</a>--}}
                     <a  href="{{route('file_export_view')}}">Bulk Upload Stock Quantity</a>
                 </li>

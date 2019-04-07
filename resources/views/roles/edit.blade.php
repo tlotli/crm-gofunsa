@@ -11,7 +11,7 @@
                 <div class="panel-heading">
                     <div class="pull-left">
                         <h5 class="panel-title txt-dark mb-10">
-                            Edit Role <span ><a id="demo" data-demo=""  class="fa fa-question-circle-o"></a></span>
+                            Edit Role
                         </h5>
                     </div>
                     <div class="clearfix"></div>

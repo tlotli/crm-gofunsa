@@ -12,7 +12,7 @@
                 <div class="panel-heading">
                     <div class="pull-left">
                         <h5 class="panel-title txt-dark mb-30">
-                            Manage Users <span ><a id="demo" data-demo=""  class="fa fa-question-circle-o"></a></span>
+                            Manage Users
                         </h5>
 
                         @can('users.create' , \Illuminate\Support\Facades\Auth::user())

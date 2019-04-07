@@ -13,7 +13,7 @@
                     <div class="pull-left">
 
                         <h5 class="panel-title txt-dark mb-30">
-                                Manage Roles <span ><a id="demo" data-demo=""  class="fa fa-question-circle-o"></a></span>
+                                Manage Roles
                         </h5>
                         @can('roles.create' , \Illuminate\Support\Facades\Auth::user())
                             <a href="{{route('roles.create')}}" id="create_button" class="btn btn-success"><span class="fa fa-plus"></span> Add Roles</a>
