@@ -25,6 +25,9 @@ Auth::routes();
 
 Route::get('/home', 'EventsController@view_calendar')->name('home');
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 Route::resource('/permissions' ,'PermissionsController');
 Route::resource('/roles' ,'RolesController');
 Route::resource('/users' ,'UsersController');
@@ -84,10 +87,6 @@ Route::post('/fileexport' , 'FileUploadsController@export')->name('export');
 Route::get('/file_export_view' , 'FileUploadsController@file_export_view')->name('file_export_view');
 
 Route::post('franchise_quantities_sold' , 'ExcelFileUploadController@franchise_quantities_sold')->name('franchise_quantities_sold');
-
-
-
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -168,14 +167,11 @@ Route::get('overdue_visitations_with_tasks' , 'TasksController@overdue_visitatio
 Route::get('tasks_assigned_to_users' , 'TasksController@tasks_assigned_to_users')->name('tasks_assigned_to_users');
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-///
-///
-///
-///
-///
-///
-///
-///
-///
-///
-///
+
+////////////////////////////////////////////////////Sites Maps Route///////////////////////////////////////////////////////////////////////////
+
+Route::get('/site_map' , 'SiteController@site_map')->name('site_map');
+Route::post('/site_franchise_filter' , 'SiteController@site_franchise_filter')->name('site_franchise_filter');
+Route::post('/site_owner_filter' , 'SiteController@site_owner_filter')->name('site_owner_filter');
+
+/// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

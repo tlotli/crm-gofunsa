@@ -1,23 +1,15 @@
 @extends('layouts.app')
 
 @section('custom-styles')
-    <!-- Bootstrap Datetimepicker CSS -->
     <link href="{{asset('assets/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" type="text/css"/>
-    <!-- Bootstrap Daterangepicker CSS -->
     <link href="{{asset('assets/vendors/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet" type="text/css"/>
 
     <style type="text/css">
-
         #map {
-
             border:1px solid red;
-
             width: auto;
-
             height: 500px;
-
         }
-
     </style>
 @endsection
 
@@ -41,15 +33,11 @@
                                                         <p style="color: #000" class="ml-30"><span class="fa fa-map-marker"></span> <small  style=";font-size: 0.95rem ; color:#000">{{$event->location}}</small> </p>
                                                 </div>
                                             </div>
-
                                             <div class="profile-info text-center">
                                                 <h5 class="block mt-10 mb-5 weight-500 capitalize-font txt-danger">Notes</h5>
                                                 <p class="block capitalize-font pb-20">{{$event->notes}}</p>
                                             </div>
-
                                         </div>
-
-
                                     </div>
 
 

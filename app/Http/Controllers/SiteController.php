@@ -18,7 +18,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Softon\SweetAlert\Facades\SWAL;
 use Illuminate\Support\Facades\DB;
-
+use Spatie\Geocoder\Facades\Geocoder;
 
 class SiteController extends Controller
 {
@@ -94,6 +94,8 @@ class SiteController extends Controller
 	        'province.required' => 'Please provide an address for the site',
 	    ]);
 
+	    $address = Geocoder::getCoordinatesForAddress($request->address);
+
         $site = new Site();
         $site->name = $request->name ;
         $site->franchise_id = $request->franchise_id ;
@@ -101,6 +103,8 @@ class SiteController extends Controller
         $site->address = $request->address ;
         $site->city = $request->city ;
         $site->province = $request->province ;
+	    $site->address_latitude = $address['lat'] ;
+	    $site->address_longitude = $address['lng'] ;
         $site->user_id = Auth::id() ;
         $site->status = 0 ;
         $site->save();
@@ -210,6 +214,7 @@ class SiteController extends Controller
 			    'province.required' => 'Please provide an address for the site',
 		    ]);
 
+	    $address = Geocoder::getCoordinatesForAddress($request->address);
 
 	    $site->name = $request->name ;
 	    $site->status = $request->status ;
@@ -218,6 +223,8 @@ class SiteController extends Controller
 	    $site->address = $request->address ;
 	    $site->city = $request->city ;
 	    $site->province = $request->province ;
+	    $site->address_latitude = $address['lat'] ;
+	    $site->address_longitude = $address['lng'] ;
 	    $site->user_id = Auth::id() ;
 //	    $site->status = 0 ;
 	    $site->save();
@@ -327,7 +334,6 @@ class SiteController extends Controller
 
 	    return view('sites.reports' , compact('chart' ,'soh_line_chart' ,'site' ,'soh_line_chart_mtd' ,'stock_sold_to_date_chart' , 'stock_sold_to_date_chart_month' , 'site_id' ,'stock_sold_to_date_month'));
     }
-
 
     public function site_search(Request $request , $id) {
 
@@ -473,14 +479,6 @@ class SiteController extends Controller
 	    return view('uploads.index' , compact('site' ,'documents'));
     }
 
-
-
-
-
-
-
-
-
     public function site_search_by_quater(Request $request , $id) {
 
 
@@ -534,6 +532,82 @@ class SiteController extends Controller
 
 	    return view('sites.report_search_quater' , compact('chart' ,'soh_line_chart' ,'site' ,'soh_line_chart_mtd' ,'stock_sold_to_date_chart' , 'stock_sold_to_date_chart_month' , 'site_id'));
 
+
+    }
+
+
+    public function site_map() {
+
+	    $franchises = DB::table('franchises')
+	                    ->join('sites' , 'sites.franchise_id' , '=' , 'franchises.id')
+	                    ->select(DB::raw('DISTINCT(franchises.id) as id' ) , 'franchises.name as name')
+		                ->orderBy('name' , 'ASC')
+	                    ->get();
+
+	    $owners = DB::table('business_groups')
+	                ->join('sites' , 'sites.business_group_id' , '=' , 'business_groups.id')
+	                ->select(DB::raw('DISTINCT(business_groups.id ) as id' ) , 'business_groups.name as name')
+		            ->orderBy('name' , 'ASC')
+	                ->get();
+
+	    $locations = DB::table('sites')->get();
+	    return view('sites.site_maps',compact('locations' , 'franchises' , 'owners'));
+    }
+
+
+    public function site_franchise_filter(Request $request) {
+
+    	$this->validate($request , [
+    		'franchise_id' => 'required'
+	    ],
+		[
+			'franchise_id.required' => 'Please select a franchise',
+		]);
+
+	    $franchises = DB::table('franchises')
+	                    ->join('sites' , 'sites.franchise_id' , '=' , 'franchises.id')
+	                    ->select(DB::raw('DISTINCT(franchises.id) as id' ) , 'franchises.name as name')
+		                ->orderBy('name' , 'ASC')
+	                    ->get();
+
+	    $owners = DB::table('business_groups')
+	                ->join('sites' , 'sites.business_group_id' , '=' , 'business_groups.id')
+	                ->select(DB::raw('DISTINCT(business_groups.id ) as id' ) , 'business_groups.name as name')
+		            ->orderBy('name' , 'ASC')
+	                ->get();
+
+	    $locations = $locations = DB::table('sites')->where('franchise_id' , $request->franchise_id)->get();
+
+	    return view('sites.site_maps_by_franchise',compact('locations' , 'franchises' , 'owners'));
+
+    }
+
+
+    public function site_owner_filter(Request $request) {
+
+	    $this->validate($request , [
+		    'business_group_id' => 'required'
+	    ],
+		    [
+			    'business_group_id.required' => 'Please select a site owner',
+		    ]);
+
+
+	    $franchises = DB::table('franchises')
+	                    ->join('sites' , 'sites.franchise_id' , '=' , 'franchises.id')
+	                    ->select(DB::raw('DISTINCT(franchises.id) as id' ) , 'franchises.name as name')
+		                ->orderBy('name' , 'ASC')
+	                    ->get();
+
+	    $owners = DB::table('business_groups')
+	                ->join('sites' , 'sites.business_group_id' , '=' , 'business_groups.id')
+	                ->select(DB::raw('DISTINCT(business_groups.id ) as id' ) , 'business_groups.name as name')
+		            ->orderBy('name' , 'ASC')
+	                ->get();
+
+	    $locations = $locations = DB::table('sites')->where('business_group_id' , $request->business_group_id)->get();
+
+	    return view('sites.site_maps_by_business_group',compact('locations' , 'franchises' , 'owners'));
 
     }
 

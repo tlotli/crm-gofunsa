@@ -13,11 +13,17 @@
                 <li>
                     <a  href="{{route('site_reports')}}">Site</a>
                 </li>
+
             </ul>
         </li>
 
         <li>
             <a href="{{route('view_calendar')}}"><div class="pull-left"><i class="ti-calendar mr-20"></i><span class="right-nav-text">Calendar</span></div><div class="pull-right"></div><div class="clearfix"></div></a>
+        </li>
+
+
+        <li>
+            <a href="{{route('site_map')}}"><div class="pull-left"><i class="ti-location-pin mr-20"></i><span class="right-nav-text">Site Locations</span></div><div class="pull-right"></div><div class="clearfix"></div></a>
         </li>
 
         <li><hr class="light-grey-hr mb-10"/></li>
