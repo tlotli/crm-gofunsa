@@ -7,9 +7,9 @@
         <li>
             <a href="javascript:void(0);" data-toggle="collapse" data-target="#dashboard_dr"><div class="pull-left"><i class="ti-stats-up mr-20"></i><span class="right-nav-text">Reports</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
             <ul id="dashboard_dr" class="collapse collapse-level-1">
-                {{--<li>--}}
-                    {{--<a  href="{{route('franchise_reports')}}">Franchise</a>--}}
-                {{--</li>--}}
+                <li>
+                    <a  href="{{route('franchise_reports')}}">Franchise</a>
+                </li>
                 <li>
                     <a  href="{{route('site_reports')}}">Site</a>
                 </li>

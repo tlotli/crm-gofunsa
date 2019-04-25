@@ -7,6 +7,9 @@
     <link href="{{asset('assets/vendors/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet" type="text/css"/>
 
 
+
+
+
 @endsection
 
 @section('main-section')
@@ -196,6 +199,8 @@
     <script type="text/javascript" src="{{asset('assets/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')}}"></script>
     <script src="{{asset('assets/vendors/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
     {{--<script src="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmnj82Z0gYPJekk2jaVrS4YfPH01Xf7vo&libraries=places"></script>--}}
+
+
 
     <script>
         $("#demo").click(function(){

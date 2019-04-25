@@ -7,6 +7,9 @@
     <link href="{{asset('assets/vendors/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet" type="text/css"/>
 
 
+
+
+
 @endsection
 
 @section('main-section')
@@ -45,7 +48,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group {{ $errors->has('location') ? 'has-error' : '' }}">
                                             <label class="control-label mb-10 text-left">Select Site </label>
-                                            <select name="site_id" id="site_id" class="form-control">
+                                            <select name="site_id" id="site_id" class="form-control select2">
                                                 @foreach($sites as $s)
                                                     <option value="{{$s->id}}">{{$s->name}}</option>
                                                 @endforeach
