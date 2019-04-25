@@ -142,10 +142,13 @@ class FranchiseReportController extends Controller
 
 	    $number_of_franchises_region = DB::table('sites')
 		                                ->leftJoin('franchises' , 'franchises.id' , '=' ,'sites.franchise_id')
-		                                ->select(DB::raw("CONCAT(franchises.name , ' - ' , sites.province) AS franchise_name") , DB::raw("COUNT(sites.business_group_id)  AS franchise_count") )
+		                                ->select(DB::raw("CONCAT(franchises.name , ' - ' , sites.province) AS franchise_name") , DB::raw("COUNT(sites.franchise_id)  AS franchise_count") )
 		                                ->where('sites.status' , 0)
 									    ->groupBy('franchises.name')
 									    ->get();
+
+
+//	    dd($number_of_franchises_region);
 
 
 	    $sales_by_franchise = DB::table('franchises')
@@ -257,10 +260,12 @@ class FranchiseReportController extends Controller
 
 	    $number_of_franchises_region = DB::table('sites')
 	                                     ->leftJoin('franchises' , 'franchises.id' , '=' ,'sites.franchise_id')
-	                                     ->select(DB::raw("CONCAT(franchises.name , ' - ' , sites.province) AS franchise_name") , DB::raw("COUNT(sites.business_group_id)  AS franchise_count") )
+	                                     ->select(DB::raw("CONCAT(franchises.name , ' - ' , sites.province) AS franchise_name") , DB::raw("COUNT(sites.franchise_id)  AS franchise_count") )
 	                                     ->where('sites.status' , 0)
 	                                     ->groupBy('franchises.name')
 	                                     ->get();
+
+//	    dd($number_of_franchises_region);
 
 
 	    $sales_by_franchise = DB::table('franchises')
@@ -272,19 +277,6 @@ class FranchiseReportController extends Controller
 		                        ->whereRaw( "QUARTER(quantity_solds.date_captured)  =  $request_to ")
 	                            ->groupBy('franchises.name')
 	                            ->get();
-
-
-
-//	    $sales_by_franchise = DB::select("
-//
-//	            SELECT SUM(quantity_solds.date_captured)
-//				FROM quantity_solds
-//				WHERE QUARTER(quantity_solds.date_captured) = QUARTER('$request_from')
-//
-//	    ");
-
-
-//	    dd($sales_by_franchise)  ;
 
 
 
