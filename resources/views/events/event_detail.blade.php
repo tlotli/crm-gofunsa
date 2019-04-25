@@ -30,7 +30,7 @@
                                                         <h1 class="text-center" style="color : #000; padding-top: 60px">{{$event->title}}</h1>
                                                         <p style="color: #000;" class="ml-30"><span class="fa fa-clock-o"></span> <small style="font-size: 0.95rem ; color:#000">{{$event->start_date}}</small> </p>
                                                         <p style="color: #000;" class="ml-30"><span class="fa fa-clock-o"></span> <small style="font-size: 0.95rem ; color:#000">{{$event->end_date}}</small> </p>
-                                                        <p style="color: #000" class="ml-30"><span class="fa fa-map-marker"></span> <small  style=";font-size: 0.95rem ; color:#000">{{$event->location}}</small> </p>
+                                                        <p style="color: #000" class="ml-30"><span class="fa fa-map-marker"></span> <small  style=";font-size: 0.95rem ; color:#000">{{$event->address}}</small> </p>
                                                 </div>
                                             </div>
                                             <div class="profile-info text-center">
@@ -68,7 +68,7 @@
 
     <script>
 
-        var locations = {!! json_encode($event->toArray()) !!};
+        var locations = {!! json_encode($event) !!};
 
     var map = new GMaps({
         el: '#map',

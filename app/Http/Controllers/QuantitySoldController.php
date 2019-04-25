@@ -19,13 +19,15 @@ class QuantitySoldController extends Controller
 	}
 
 	public function capture_quantity_sold_list($id) {
-		$site = DB::table('sites')
-		          ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
-		          ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
-		          ->where('sites.id' , $id)
-//		        ->select('sites.name AS site_name')
-                  ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
-		          ->get();
+//		$site = DB::table('sites')
+//		          ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
+//		          ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
+//		          ->where('sites.id' , $id)
+////		        ->select('sites.name AS site_name')
+//                  ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
+//		          ->get();
+
+		$site  = Site::find($id);
 
 		$qs = DB::table('users')
 		        ->join('quantity_solds' , 'quantity_solds.captured_by' , '=' , 'users.id')
@@ -39,13 +41,15 @@ class QuantitySoldController extends Controller
 	}
 
 	public function capture_quantity_sold($id) {
-		$site = DB::table('sites')
-		          ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
-		          ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
-		          ->where('sites.id' , $id)
-//		        ->select('sites.name AS site_name')
-                  ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
-		          ->get();
+//		$site = DB::table('sites')
+//		          ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
+//		          ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
+//		          ->where('sites.id' , $id)
+////		        ->select('sites.name AS site_name')
+//                  ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
+//		          ->get();
+
+		$site  = Site::find($id);
 
 		return view('quantity_sold.create' , compact('site'));
 	}
@@ -83,13 +87,7 @@ class QuantitySoldController extends Controller
 	}
 
 	public function edit_quantity_sold($id , $site_id) {
-		$site = DB::table('sites')
-		          ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
-		          ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
-		          ->where('sites.id' , $site_id)
-//		        ->select('sites.name AS site_name')
-                  ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
-		          ->get();
+		$site  = Site::find($id);
 
 		$soh = QuantitySold::find($id);
 		return view('quantity_sold.edit' , compact('site' , 'soh'));

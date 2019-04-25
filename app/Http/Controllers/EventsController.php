@@ -4,6 +4,7 @@ namespace GoFunCrm\Http\Controllers;
 
 use GoFunCrm\Event;
 use GoFunCrm\Log;
+use GoFunCrm\Site;
 use GoFunCrm\VisitationType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -43,7 +44,8 @@ class EventsController extends Controller
      */
     public function create()
     {
-        return view('events.create');
+    	$sites = Site::all();
+        return view('events.create' , compact('sites'));
     }
 
     /**
@@ -54,33 +56,34 @@ class EventsController extends Controller
      */
     public function store(Request $request)
     {
-
+//    	dd($request->all());
 
         $this->validate($request , [
         	'title' => 'required',
         	'start_date' => 'required',
         	'end_date' => 'required',
-        	'location' => 'required',
-        	'notes' => 'required',
+        	'site_id' => 'required',
+        	'event_type' => 'required',
+//        	'event_type' => 'required',
         ],
 	    [
 	        	'title.required' => 'Please provide title',
 	        	'start_date.required' => 'Please provide start date',
 	        	'end_date.required' => 'Please provide end date',
-		        'notes.required' => 'Please provide notes fo the event',
-		        'location.required' => 'Please provide event location',
+//		        'notes.required' => 'Please provide notes fo the event',
+		        'site_id.required' => 'Please select a site',
 	    ]);
 
-
-	    $address = Geocoder::getCoordinatesForAddress($request->location);
+//	    $address = Geocoder::getCoordinatesForAddress($request->location);
 
 	    $event = new Event();
         $event->start_date = Carbon::parse($request->start_date);
         $event->end_date = Carbon::parse($request->end_date);
 		$event->title = $request->title ;
-		$event->location = $request->location ;
-		$event->address_latitude = $address['lat'] ;
-		$event->address_longitude = $address['lng'] ;
+		$event->site_id = $request->site_id ;
+		$event->event_type = $request->event_type ;
+//		$event->address_latitude = $address['lat'] ;
+//		$event->address_longitude = $address['lng'] ;
 		$event->notes = $request->notes ;
 		$event->user_id = Auth::id() ;
 		$event->save();
@@ -116,8 +119,9 @@ class EventsController extends Controller
      */
     public function edit($id)
     {
+	    $sites = Site::all();
         $event = Event::find($id);
-        return view('events.edit' , compact('event'));
+        return view('events.edit' , compact('event' , 'sites'));
     }
 
     /**
@@ -129,38 +133,40 @@ class EventsController extends Controller
      */
     public function update(Request $request, $id)
     {
+//    	dd($request->all());
+
 	    $this->validate($request , [
 		    'title' => 'required',
 		    'start_date' => 'required',
 		    'end_date' => 'required',
-		    'notes' => 'required',
-		    'location' => 'required',
+		    'site_id' => 'required',
+		    'event_type' => 'required',
+//        	'event_type' => 'required',
 	    ],
 		    [
 			    'title.required' => 'Please provide title',
 			    'start_date.required' => 'Please provide start date',
 			    'end_date.required' => 'Please provide end date',
-			    'notes.required' => 'Please provide notes fo the event',
-			    'location.required' => 'Please provide event location',
+//		        'notes.required' => 'Please provide notes fo the event',
+			    'site_id.required' => 'Please select a site',
 		    ]);
 
-	    $address = Geocoder::getCoordinatesForAddress($request->location);
-
+//	    $address = Geocoder::getCoordinatesForAddress($request->location);
 
 	    $event = Event::find($id);
-	    $event_name = $event->title ;
 	    $event->start_date = Carbon::parse($request->start_date);
 	    $event->end_date = Carbon::parse($request->end_date);
 	    $event->title = $request->title ;
-	    $event->location = $request->location ;
-	    $event->address_latitude = $address['lat'] ;
-	    $event->address_longitude = $address['lng'] ;
+	    $event->site_id = $request->site_id ;
+	    $event->event_type = $request->event_type ;
+//		$event->address_latitude = $address['lat'] ;
+//		$event->address_longitude = $address['lng'] ;
 	    $event->notes = $request->notes ;
 	    $event->user_id = Auth::id() ;
 	    $event->save();
 
 	    $log = new Log();
-	    $log-> description = Auth::user()->name . ' Updated the following event  ' . $event_name;
+	    $log-> description = Auth::user()->name . ' Updated the following event  ' . $event->title;
 	    $log->log_type = ' 	Events';
 	    $log->save();
 
@@ -197,7 +203,7 @@ class EventsController extends Controller
 		    foreach ($data as $key => $value)
 		    {
 			    $events[] = Calendar::event(
-				    $value->title   ,
+				    $value->title . ' - ' . strtoupper($value->event_type)    ,
 				    true,
 				    new \DateTime($value->start_date),
 				    new \DateTime($value->end_date),
@@ -218,7 +224,18 @@ class EventsController extends Controller
     }
 
     public function calendar_detail($id) {
-    	$event = Event::find($id);
+//    	$event = Event::find($id);
+
+
+    	$event = DB::table('sites')
+		         ->join('events' , 'events.site_id' , '=' , 'sites.id')
+		         ->where('events.id' , $id)
+		         ->select('events.start_date AS start_date' , 'events.title AS title' , 'events.end_date AS end_date' , 'sites.name AS site_name' , 'sites.address AS address' ,'sites.address AS address' , 'sites.address_latitude AS address_latitude' ,'sites.address_longitude AS address_longitude' ,'events.notes AS notes' )
+		         ->first();
+//	             ->toArray();
+
+//    	dd(json_encode($event));
+
     	return view('events.event_detail' , compact('event'));
     }
 }

@@ -34,12 +34,7 @@ class SiteController extends Controller
      */
     public function index()
     {
-    	$sites = DB::table('sites')
-		         ->join('business_groups' , 'business_groups.id' , '=' , 'sites.business_group_id')
-		         ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
-		         ->join('franchises' , 'franchises.id' , '=' , 'sites.franchise_id')
-		         ->select('business_owners.name AS owned_by' , 'business_owners.email AS owners_email' , 'business_owners.email AS owners_email' ,'business_owners.contact_number AS contact_number' ,'business_groups.name AS business_group_name' , 'franchises.name as franchise_name', 'business_groups.business_type AS business_type' , 'sites.name AS site_name' , 'sites.province AS province' , 'sites.status AS status' , 'sites.id AS id' , 'business_groups.id AS business_group_id')
-		         ->get();
+	    $sites = Site::all();
         return view('sites.index' , compact('sites'));
     }
 
@@ -50,22 +45,9 @@ class SiteController extends Controller
      */
     public function create()
     {
-    	$franchise = Franchise::where('status' , 0)->get();
-    	$business_groups = BusinessGroup::where('status' , 0)->get();
-    	$business_owners = BusinessOwner::all();
+    	$franchises = Franchise::where('status' , 0)->get();
     	$province = Province::all();
-
-
-    	if(empty($business_groups) || empty($business_owners)) {
-		    SWAL::message('Warning','Please create a business group or add business owners to the system before proceeding','warning',[
-			    'timer'=>9000,
-		    ]);
-		    return redirect()->back();
-	    }
-	    else {
-		    return view('sites.create' , compact('business_owners' , 'business_groups' ,'province', 'franchise'));
-	    }
-
+		return view('sites.create' , compact( 'province', 'franchises'));
     }
 
     /**
@@ -76,37 +58,62 @@ class SiteController extends Controller
      */
     public function store(Request $request)
     {
+
+//    	dd($request->all())  ;
+
         $this->validate($request , [
         	'name' => 'required',
-        	'franchise_id' => 'required',
-        	'business_group_id' => 'required',
         	'address' => 'required',
         	'city' => 'required',
         	'province' => 'required',
+//        	'surburb' => 'required',
+//        	'owner_name' => 'required',
+//        	'owner_cellphone' => 'required',
+//        	'owner_email' => 'required',
+//        	'manager_name' => 'required',
+//        	'manager_cellphone' => 'required',
+//        	'manager_email' => 'required',
         ],
 	    [
 	        'name.required' => 'Site name is required',
-	        'franchise_id.required' => 'Please select the franchise to which the site belongs too',
-	        'business_group_id.required' => 'Please select business group for the site',
+	        'address.required' => 'Please provide address for the site',
+	        'city.required' => 'Please provide city for the site',
 
-	        'address.required' => 'City field is required',
-	        'city.required' => 'Please provide an address for the site',
-	        'province.required' => 'Please provide an address for the site',
+	        'owner_name.required' => 'Site owner name is required',
+	        'owner_cellphone.required' => 'Site owners name is required',
+	        'owner_email.required' => 'Site owners email is required',
+	        'manager_name.required' => 'Manager name is required',
+	        'manager_cellphone.required' => 'Manager cellphone is required',
+	        'manager_email.required' => 'Manager email is required',
 	    ]);
 
 	    $address = Geocoder::getCoordinatesForAddress($request->address);
 
         $site = new Site();
-        $site->name = $request->name ;
+	    $site->name = $request->name ;
+	    $site->gofun_bc = $request->gofun_bc ;
+	    $site->retail_group_bc = $request->retail_group_bc ;
+	    $site->retailer = $request->retailer;
+	    $site->retailer_name = $request->retailer_name;
+	    $site->retailer_contact_no = $request->retailer_contact_no;
+	    $site->manager_1 = $request->manager_1;
+	    $site->manager_2 = $request->manager_2;
+	    $site->address = $request->address ;
+	    $site->city = $request->city ;
+	    $site->province = $request->province ;
+	    $site->surburb = $request->surburb ;
+        $site->landline = $request->landline ;
+        $site->cellphone = $request->cellphone ;
+        $site->alternative = $request->alternative ;
+        $site->email_1 = $request->email_1 ;
+        $site->email_2 = $request->email_2 ;
+	    $site->notes = $request->notes ;
         $site->franchise_id = $request->franchise_id ;
-        $site->business_group_id = $request->business_group_id ;
-        $site->address = $request->address ;
-        $site->city = $request->city ;
-        $site->province = $request->province ;
-	    $site->address_latitude = $address['lat'] ;
-	    $site->address_longitude = $address['lng'] ;
+	    $site->on_board = $request->on_board ;
         $site->user_id = Auth::id() ;
         $site->status = 0 ;
+	    $site->address_latitude = $address['lat'] ;
+	    $site->address_longitude = $address['lng'] ;
         $site->save();
 
 	    $log = new Log();
@@ -136,11 +143,7 @@ class SiteController extends Controller
 		               ->select('visitations.date_visited AS date_visited' , 'users.name AS user_name' , 'visitations.reason_for_visit AS reason_for_visit' , 'visitations.notes AS notes')
 		               ->get();
 
-    	$site = DB::table('business_owners')
-	            ->join('sites' , 'sites.business_owner_id' , '=' , 'business_owners.id')
-		        ->where('sites.id' , $id)
-	            ->select('sites.*' , 'business_owners.name AS owner_name')
-	            ->first();
+	    $site = Site::find($id);
 
     	$soh = DB::table('users')
 	             ->join('stock_on_hands' , 'stock_on_hands.captured_by' , '=' , 'users.id')
@@ -176,12 +179,9 @@ class SiteController extends Controller
     public function edit($id)
     {
     	$site = Site::find($id);
-	    $franchise = Franchise::where('status' , 0)->get();
-	    $business_groups = BusinessGroup::where('status' , 0)->get();
-	    $business_owners = BusinessOwner::all();
 	    $province = Province::all();
-
-	    return view('sites.edit' , compact('business_groups' , 'business_owners' ,'province','site' , 'franchise'));
+	    $franchises = Franchise::all();
+	    return view('sites.edit' , compact('province','site' , 'franchises'));
     }
 
     /**
@@ -198,36 +198,62 @@ class SiteController extends Controller
 
 	    $this->validate($request , [
 		    'name' => 'required',
-		    'franchise_id' => 'required',
-		    'business_group_id' => 'required',
 		    'address' => 'required',
 		    'city' => 'required',
 		    'province' => 'required',
+//        	'surburb' => 'required',
+//		    'owner_name' => 'required',
+//        	'owner_cellphone' => 'required',
+//        	'owner_email' => 'required',
+//        	'manager_name' => 'required',
+//        	'manager_cellphone' => 'required',
+//        	'manager_email' => 'required',
 	    ],
 		    [
 			    'name.required' => 'Site name is required',
-			    'franchise_id.required' => 'Please select the franchise to which the site belongs too',
-			    'business_group_id.required' => 'Please select business group for the site',
+			    'address.required' => 'Please provide address for the site',
+			    'city.required' => 'Please provide city for the site',
 
-			    'address.required' => 'City field is required',
-			    'city.required' => 'Please provide an address for the site',
-			    'province.required' => 'Please provide an address for the site',
+			    'owner_name.required' => 'Site owner name is required',
+			    'owner_cellphone.required' => 'Site owners name is required',
+			    'owner_email.required' => 'Site owners email is required',
+			    'manager_name.required' => 'Manager name is required',
+			    'manager_cellphone.required' => 'Manager cellphone is required',
+			    'manager_email.required' => 'Manager email is required',
 		    ]);
 
 	    $address = Geocoder::getCoordinatesForAddress($request->address);
 
 	    $site->name = $request->name ;
-	    $site->status = $request->status ;
-	    $site->franchise_id = $request->franchise_id ;
-	    $site->business_group_id = $request->business_group_id ;
+	    $site->gofun_bc = $request->gofun_bc ;
+	    $site->retail_group_bc = $request->retail_group_bc ;
+	    $site->retailer = $request->retailer;
+	    $site->retailer_name = $request->retailer_name;
+	    $site->retailer_contact_no = $request->retailer_contact_no;
+	    $site->manager_1 = $request->manager_1;
+	    $site->manager_2 = $request->manager_2;
 	    $site->address = $request->address ;
 	    $site->city = $request->city ;
 	    $site->province = $request->province ;
+	    $site->surburb = $request->surburb ;
+	    $site->landline = $request->landline ;
+	    $site->cellphone = $request->cellphone ;
+	    $site->alternative = $request->alternative ;
+	    $site->email_1 = $request->email_1 ;
+	    $site->email_2 = $request->email_2 ;
+	    $site->notes = $request->notes ;
+	    $site->franchise_id = $request->franchise_id ;
+	    $site->on_board = $request->on_board ;
+	    $site->user_id = Auth::id() ;
+	    $site->status = 0 ;
 	    $site->address_latitude = $address['lat'] ;
 	    $site->address_longitude = $address['lng'] ;
-	    $site->user_id = Auth::id() ;
-//	    $site->status = 0 ;
 	    $site->save();
+
+//	    $log = new Log();
+//	    $log-> description = Auth::user()->name . ' Added ' . $site->name ;
+//	    $log->log_type = 'Store Management';
+//	    $log->save();
 
 	    $log = new Log();
 	    $log-> description = Auth::user()->name . ' Updated  ' . $site_name . ' created at ' . $site->updated_at ;
@@ -259,13 +285,7 @@ class SiteController extends Controller
     	$find_site = Site::find($id)->first() ;
     	$site_id = $find_site->id;
 
-	    $site = DB::table('sites')
-	              ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
-	              ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
-	              ->where('sites.id' , $id)
-//		        ->select('sites.name AS site_name')
-                  ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
-	              ->get();
+	    $site = Site::find($id);
 
 //	   $soh_line_chart_ytd = DB::table('users')
 //	                        ->join('stock_on_hands' , 'stock_on_hands.captured_by' , '=' , 'users.id')
@@ -351,13 +371,7 @@ class SiteController extends Controller
 	    $from = $request->from ;
 	    $to = $request->to ;
 
-	    $site = DB::table('sites')
-	              ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
-	              ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
-	              ->where('sites.id' , $id)
-//		        ->select('sites.name AS site_name')
-                  ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
-	              ->get();
+		$site = Site::find($id);
 
 
 	    $soh_line_chart_ytd = DB::table('users')
@@ -462,13 +476,16 @@ class SiteController extends Controller
     }
 
     public function uploads($id) {
-	    $site = DB::table('sites')
-	              ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
-	              ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
-	              ->where('sites.id' , $id)
-//		        ->select('sites.name AS site_name')
-                  ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
-	              ->get();
+//	    $site = DB::table('sites')
+//	              ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
+//	              ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
+//	              ->where('sites.id' , $id)
+////		        ->select('sites.name AS site_name')
+//                  ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
+//	              ->get();
+
+
+	    $site = Site::find($id);
 
 	    $documents = DB::table('users')
 	                   ->join('file_uploads' , 'file_uploads.user_id' , '=' , 'users.id')
@@ -481,22 +498,10 @@ class SiteController extends Controller
 
     public function site_search_by_quater(Request $request , $id) {
 
-
 	    $find_site = Site::find($id)->first() ;
 	    $site_id = $id;
 
-
-	    $site = DB::table('sites')
-	              ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
-	              ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
-	              ->where('sites.id' , $id)
-//		        ->select('sites.name AS site_name')
-                  ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
-	              ->get();
-
-
-
-
+	    $site = Site::find($id);
 
 	    $stock_sold_to_date =  DB::table('quantity_solds')
 	                             ->join('sites' , 'sites.id' , '=' ,'quantity_solds.site_id')
@@ -544,14 +549,14 @@ class SiteController extends Controller
 		                ->orderBy('name' , 'ASC')
 	                    ->get();
 
-	    $owners = DB::table('business_groups')
-	                ->join('sites' , 'sites.business_group_id' , '=' , 'business_groups.id')
-	                ->select(DB::raw('DISTINCT(business_groups.id ) as id' ) , 'business_groups.name as name')
-		            ->orderBy('name' , 'ASC')
-	                ->get();
+//	    $owners = DB::table('business_groups')
+//	                ->join('sites' , 'sites.business_group_id' , '=' , 'business_groups.id')
+//	                ->select(DB::raw('DISTINCT(business_groups.id ) as id' ) , 'business_groups.name as name')
+//		            ->orderBy('name' , 'ASC')
+//	                ->get();
 
 	    $locations = DB::table('sites')->get();
-	    return view('sites.site_maps',compact('locations' , 'franchises' , 'owners'));
+	    return view('sites.site_maps',compact('locations' , 'franchises' ));
     }
 
 
@@ -570,15 +575,15 @@ class SiteController extends Controller
 		                ->orderBy('name' , 'ASC')
 	                    ->get();
 
-	    $owners = DB::table('business_groups')
-	                ->join('sites' , 'sites.business_group_id' , '=' , 'business_groups.id')
-	                ->select(DB::raw('DISTINCT(business_groups.id ) as id' ) , 'business_groups.name as name')
-		            ->orderBy('name' , 'ASC')
-	                ->get();
+//	    $owners = DB::table('business_groups')
+//	                ->join('sites' , 'sites.business_group_id' , '=' , 'business_groups.id')
+//	                ->select(DB::raw('DISTINCT(business_groups.id ) as id' ) , 'business_groups.name as name')
+//		            ->orderBy('name' , 'ASC')
+//	                ->get();
 
 	    $locations = $locations = DB::table('sites')->where('franchise_id' , $request->franchise_id)->get();
 
-	    return view('sites.site_maps_by_franchise',compact('locations' , 'franchises' , 'owners'));
+	    return view('sites.site_maps_by_franchise',compact('locations' , 'franchises'));
 
     }
 
@@ -609,6 +614,12 @@ class SiteController extends Controller
 
 	    return view('sites.site_maps_by_business_group',compact('locations' , 'franchises' , 'owners'));
 
+    }
+
+
+    public function site_bulk_upload() {
+
+	    return view('uploads.sites_upload' );
     }
 
 

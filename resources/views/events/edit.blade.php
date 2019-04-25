@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('custom-styles')
@@ -40,28 +39,83 @@
                                             @endif
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group {{ $errors->has('location') ? 'has-error' : '' }}">
+                                            <label class="control-label mb-10 text-left">Select Site </label>
+                                            <select name="site_id" id="site_id" class="form-control">
+                                                @foreach($sites as $s)
+                                                    <option value="{{$s->id}}"
+                                                            @if($s->id == $event->site_id)
+                                                                selected
+                                                            @endif
+                                                    >{{$s->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group {{ $errors->has('location') ? 'has-error' : '' }}">
-                                            <label class="control-label mb-10 text-left">Location </label>
-                                            <input type="text" class="form-control" name="location" id="txtPlaces" value="{{$event->location}}">
-                                            @if ($errors->has('location'))
-                                                <span class="text-danger" >
-                                                    <strong>{{ $errors->first('location') }}</strong>
-                                                </span>
-                                            @endif
-                                            <input type="hidden" name="address_latitude" id="address-latitude" value="0" />
-                                            <input type="hidden" name="address_longitude" id="address-longitude" value="0" />
+                                            <label class="control-label mb-10 text-left">Event Type </label>
+                                            <select name="event_type" id="event_type" class="form-control">
+                                                @if($event->event_type == "activation")
+                                                    <option value="activation" selected>Activation</option>
+                                                    <option value="bc_visit">Business Consultant Visit</option>
+                                                    <option value="call">Call</option>
+                                                    <option value="email">Email</option>
+                                                    <option value="other">Other</option>
+                                                @endif
+
+                                                @if($event->event_type == "bc_visit")
+                                                        <option value="activation" >Activation</option>
+                                                        <option value="bc_visit" selected>Business Consultant Visit</option>
+                                                        <option value="call">Call</option>
+                                                        <option value="email">Email</option>
+                                                        <option value="other">Other</option>
+                                                @endif
+
+                                                @if($event->event_type == "call")
+                                                        <option value="activation" >Activation</option>
+                                                        <option value="bc_visit" >Business Consultant Visit</option>
+                                                        <option value="call" selected>Call</option>
+                                                        <option value="email">Email</option>
+                                                        <option value="other">Other</option>
+                                                @endif
+
+                                                @if($event->event_type == "email")
+                                                        <option value="activation" >Activation</option>
+                                                        <option value="bc_visit" >Business Consultant Visit</option>
+                                                        <option value="call" >Call</option>
+                                                        <option value="email" selected>Email</option>
+                                                        <option value="other">Other</option>
+                                                @endif
+
+                                                @if($event->event_type == "other")
+                                                        <option value="activation" >Activation</option>
+                                                        <option value="bc_visit" >Business Consultant Visit</option>
+                                                        <option value="call" >Call</option>
+                                                        <option value="email" >Email</option>
+                                                        <option value="other" selected>Other</option>
+                                                @endif
+                                            </select>
                                         </div>
                                     </div>
+
+
                                 </div>
+
+
+
 
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group {{ $errors->has('start_date') ? 'has-error' : '' }}">
                                             <label class="control-label mb-10 text-left">Start Date</label>
                                             <div class='input-group date datetimepicker1' >
-                                                <input type='text' name="start_date" value="{{date('m-d-Y H:i:s',strtotime($event->start_date))}}" class="form-control" />
+                                                <input type='text' name="start_date" value="{{date('m-d-Y H:i:s',strtotime($event->start_date))}}"  class="form-control" />
                                                 <span class="input-group-addon">
 												    <span class="fa fa-calendar" id="start_date"></span>
 												</span>
@@ -106,7 +160,6 @@
                                     </div>
                                 </div>
 
-
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -119,7 +172,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <button id="create_button" class="btn btn-success mt-10"><span class="fa fa-pencil-square"></span> Edit Event</button>
+                                            <button id="create_button" class="btn btn-success mt-10"><span class="fa fa-plus"></span> Update Event</button>
                                             <a href="{{route('events.index')}}" id="back" class="btn btn-primary mt-10"><span class="fa fa-arrow-left"></span> Back </a>
                                         </div>
                                     </div>
@@ -211,8 +264,3 @@
     {{--<script src="{{asset('js/mapInput.js')}}"></script>--}}
 
 @endsection
-
-
-
-
-

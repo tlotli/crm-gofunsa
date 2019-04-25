@@ -18,12 +18,14 @@ class InvoiceController extends Controller
 	}
 
 	public function index($id) {
-		$site = DB::table('sites')
-		          ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
-		          ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
-		          ->where('sites.id' , $id)
-                  ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
-		          ->get();
+//		$site = DB::table('sites')
+//		          ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
+//		          ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
+//		          ->where('sites.id' , $id)
+//                  ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
+//		          ->get();
+
+		$site = Site::find($id);
 
 		$invoices = DB::table('users')
 					->rightJoin('invoices' , 'invoices.user_id' , '=' ,'users.id')
@@ -37,12 +39,14 @@ class InvoiceController extends Controller
 
 	public function invoice_create($id) {
 
-		$site = DB::table('sites')
-		          ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
-		          ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
-		          ->where('sites.id' , $id)
-		          ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
-		          ->get();
+//		$site = DB::table('sites')
+//		          ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
+//		          ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
+//		          ->where('sites.id' , $id)
+//		          ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
+//		          ->get();
+
+		$site = Site::find($id);
 
 		return view('invoices.create' ,compact('site'));
 	}
@@ -97,12 +101,14 @@ class InvoiceController extends Controller
 	}
 
 	public function edit_invoice($id , $site_id) {
-		$site = DB::table('sites')
-		          ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
-		          ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
-		          ->where('sites.id' , $site_id)
-		          ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
-		          ->get();
+//		$site = DB::table('sites')
+////		          ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
+////		          ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
+//		          ->where('sites.id' , $site_id)
+//		          ->select('sites.name AS site_name'  , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
+//		          ->get();
+
+		$site = Site::find($site_id);
 
 		$invoice = Invoice::find($id);
 		return view('invoices.edit' , compact('site' ,'invoice'));

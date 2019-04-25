@@ -88,6 +88,13 @@ Route::get('/file_export_view' , 'FileUploadsController@file_export_view')->name
 
 Route::post('franchise_quantities_sold' , 'ExcelFileUploadController@franchise_quantities_sold')->name('franchise_quantities_sold');
 
+
+
+Route::get('sites_uploads_view' , 'ExcelFileUploadController@sites_uploads_view')->name('sites_uploads_view');
+Route::post('sites_uploads_uploads' , 'ExcelFileUploadController@sites_uploads_uploads')->name('sites_uploads_uploads');
+
+//Route::post('franchise_quantities_sold' , 'ExcelFileUploadController@franchise_quantities_sold')->name('franchise_quantities_sold');
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////Events Routes//////////////////////////////////////////////////////////////
@@ -116,7 +123,6 @@ Route::post('filter_franchise_reports_by_quater' , 'FranchiseReportController@fi
 ////////////////////////////////////////////////////Site Route//////////////////////////////////////////////////////////////
 Route::get('site_reports' , 'SiteReportsController@reports')->name('site_reports');
 Route::post('filter_reports' , 'SiteReportsController@filter_reports')->name('site_filter_reports');
-
 
 Route::post('filter_site_reports_by_quater' , 'SiteReportsController@filter_site_reports_by_quater')->name('filter_site_reports_by_quater');
 

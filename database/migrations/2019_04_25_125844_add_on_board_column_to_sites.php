@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddLongitutudeAndLatitudeToSitesTable extends Migration
+class AddOnBoardColumnToSites extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class AddLongitutudeAndLatitudeToSitesTable extends Migration
     public function up()
     {
         Schema::table('sites', function (Blueprint $table) {
-	        $table->double('address_latitude')->nullable();
-	        $table->double('address_longitude')->nullable();
+            $table->string('on_board')->nullable();
         });
     }
 

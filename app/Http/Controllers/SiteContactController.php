@@ -18,12 +18,14 @@ class SiteContactController extends Controller
 	}
 
 	public function index($id) {
-		$site = DB::table('sites')
-		                         ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
-		                         ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
-		                         ->where('sites.id' , $id)
-		                         ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
-		                         ->get();
+//		$site = DB::table('sites')
+//		                         ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
+//		                         ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
+//		                         ->where('sites.id' , $id)
+//		                         ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
+//		                         ->get();
+
+		$site = Site::find($id);
 
 		$site_contacts = SiteContact::where('site_id'  , $id)->get();
 		return view('site_contacts.index' , compact('site' , 'site_contacts'));
@@ -31,12 +33,7 @@ class SiteContactController extends Controller
 
 
 	public function site_create_contacts($id) {
-		$site = DB::table('sites')
-		          ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
-		          ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
-		          ->where('sites.id' , $id)
-		          ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
-		          ->get();
+		$site = Site::find($id);
 
 		return view('site_contacts.create' , compact('site'));
 	}
@@ -82,12 +79,7 @@ class SiteContactController extends Controller
 
 	public function edit_site_contact($id , $site_id) {
 
-		$site = DB::table('sites')
-		          ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
-		          ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
-		          ->where('sites.id' , $site_id)
-		          ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
-		          ->get();
+		$site = Site::find($id);
 
 		$site_contact = SiteContact::find($id);
 		return view('site_contacts.edit' , compact('site_contact' , 'site'));

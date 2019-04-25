@@ -49,8 +49,6 @@
         </div>
     </div>
     <!-- /Row -->
-
-
 @endsection
 
 @section('custom-scripts')

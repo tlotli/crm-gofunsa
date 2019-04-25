@@ -138,7 +138,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Site Name</th>
-                                        <th>Business Group Name</th>
+                                        {{--<th>Business Group Name</th>--}}
                                         <th>Province</th>
                                         <th>Units Sold (YTD)</th>
                                     </tr>
@@ -147,7 +147,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Site Name</th>
-                                        <th>Business Group Name</th>
+                                        {{--<th>Business Group Name</th>--}}
                                         <th>Province</th>
                                         <th>Units Sold (YTD)</th>
                                     </tr>
@@ -157,7 +157,7 @@
                                         <tr>
                                             <td>{{$loop->index + 1}}</td>
                                             <td><a href="{{ route('site_report' , [ 'id' => $s->site_id ]) }}" class="text-primary"> {{$s->site_name}}</a></td>
-                                            <td><a href="{{ route('business_group_dashboard' , [ 'id' => $s->business_groups_id ]) }}" class="text-primary">{{$s->business_group_name}}</a></td>
+{{--                                            <td><a href="{{ route('business_group_dashboard' , [ 'id' => $s->business_groups_id ]) }}" class="text-primary">{{$s->business_group_name}}</a></td>--}}
                                             <td>{{$s->site_province}}</td>
                                             <td>{{$s->sum_quantity_sold}}</td>
                                         </tr>

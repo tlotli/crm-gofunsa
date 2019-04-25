@@ -101,13 +101,16 @@ class VisitationsController extends Controller
 
     public function visitations_list($id) {
 
-    	$site = DB::table('sites')
-		        ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
-		        ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
-		        ->where('sites.id' , $id)
-//		        ->select('sites.name AS site_name')
-		        ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
-		        ->get();
+//    	$site = DB::table('sites')
+//		        ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
+//		        ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
+//		        ->where('sites.id' , $id)
+////		        ->select('sites.name AS site_name')
+//		        ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
+//		        ->get();
+
+
+	    $site = Site::find($id);
 
 	    $visitations = DB::table('users')
 	                     ->join('visitations' , 'visitations.visisted_by' , '=' , 'users.id')
@@ -118,19 +121,22 @@ class VisitationsController extends Controller
 		                 ->orderBy('visitations.date_visited' , 'DESC')
 	                     ->get();
 
+
 	    return view('visitation.index' , compact('site' , 'visitations'));
 
     }
 
 
     public function create_visitation($id) {
-	    $site = DB::table('sites')
-	              ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
-	              ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
-	              ->where('sites.id' , $id)
-//		        ->select('sites.name AS site_name')
-                  ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
-	              ->get();
+//	    $site = DB::table('sites')
+//	              ->join('business_groups' , 'sites.business_group_id' , '=' , 'business_groups.id')
+//	              ->join('business_owners' , 'business_owners.id' , '=' , 'business_groups.business_owner_id')
+//	              ->where('sites.id' , $id)
+////		        ->select('sites.name AS site_name')
+//                  ->select('sites.name AS site_name' , 'business_groups.name AS owned_by' , 'business_groups.business_type AS business_type' , 'business_owners.name AS ceo' , 'sites.city AS city' , 'sites.address AS address' , 'sites.province AS province' ,'sites.id AS id')
+//	              ->get();
+
+	    $site = Site::find($id);
 
 	    $visitation_types = VisitationType::all();
 

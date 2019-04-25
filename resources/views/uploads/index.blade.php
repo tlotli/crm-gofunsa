@@ -15,21 +15,19 @@
                         <div class="profile-box">
                             <div class="profile-cover-pic">
                                 <div class="">
-                                    @foreach($site as $s)
-                                        <h1 class="text-center" style="color : #000; padding-top: 60px">{{$s->site_name}}</h1>
-                                        {{--<p style="color: #000;" class="ml-30"><span class="fa fa-user"></span> <small style="font-size: 0.95rem ; color:#000">{{$s->contact_person}}</small> </p>--}}
-                                        {{--<p style="color: #000;" class="ml-30"><span class="fa fa-phone"></span> <small style="font-size: 0.95rem ; color:#000">{{$site->contact_number }}</small> </p>--}}
-                                        {{--<p style="color: #000" class="ml-30"><span class="fa fa-envelope"></span> <small  style=";font-size: 0.95rem ; color:#000">{{$site->contact_email }}</small> </p>--}}
-                                        <p style="color: #000; padding-bottom: 30px" class="ml-30"><span class="fa fa-map"></span> <small  style=";font-size: 0.95rem ; color:#000">{{$s->address .' , ' . $s->city . ' , ' . $s->province}}</small> </p>
-                                    @endforeach
+                                    {{--@foreach($site as $s)--}}
+                                    <h1 class="text-center" style="color : #000; padding-top: 60px">{{$site->name}}</h1>
+                                    {{--<p style="color: #000;" class="ml-30"><span class="fa fa-user"></span> <small style="font-size: 0.95rem ; color:#000">{{$site->retailer . ' - ' . $site->manager_1 . ' - ' . $site->manager_2}}</small> </p>--}}
+                                    <p style="color: #000;" class="ml-30"><span class="fa fa-phone"></span> <small style="font-size: 0.95rem ; color:#000">{{$site->retailer_contact_no . ' - ' . $site->landline . ' - ' .$site-> 	cellphone }}</small> </p>
+                                    <p style="color: #000" class="ml-30"><span class="fa fa-envelope"></span> <small  style=";font-size: 0.95rem ; color:#000">{{$site->email_1 . ' - ' .$site->email_2  }}</small> </p>
+                                    <p style="color: #000; padding-bottom: 30px" class="ml-30"><span class="fa fa-map"></span> <small  style=";font-size: 0.95rem ; color:#000">{{$site->address}}</small> </p>
+                                    {{--@endforeach--}}
 
                                 </div>
                             </div>
                             <div class="profile-info text-center">
-                                <h5 class="block mt-10 mb-5 weight-500 capitalize-font txt-danger">Owned By</h5>
-                                @foreach($site as $s)
-                                    <h6 class="block capitalize-font pb-20">{{$s->owned_by . ' - ' . $s->business_type}}</h6>
-                                @endforeach
+                                <h5 class="block mt-10 mb-5 weight-500 capitalize-font txt-danger">Managed By</h5>
+                                <h6 class="block capitalize-font pb-20">{{$site->manager_1 . ' - ' . $site->manager_2 }}</h6>
                             </div>
                         </div>
                     </div>
@@ -37,6 +35,8 @@
             </div>
         </div>
     </div>
+
+
 
     <div class="row">
         <div class="col-lg-12 col-sm-12">
@@ -48,33 +48,33 @@
                         <div class="tab-struct custom-tab-1 mt-40">
                             <ul role="tablist" class="nav nav-tabs" id="myTabs_7">
 
-                                @foreach($site as $s)
-                                    <li  role="presentation" ><a  href="{{route('visitations_list' , ['id' => $s->id])}}" aria-expanded="false">Visitations</a></li>
-                                @endforeach
+                                {{--@foreach($site as $s)--}}
+                                    <li  role="presentation" ><a  href="{{route('visitations_list' , ['id' => $site->id])}}" aria-expanded="false">Visitations</a></li>
+                                {{--@endforeach--}}
 
-                                @foreach($site as $s)
-                                    <li  role="presentation"><a  href="{{route('site_contacts' , ['id' => $s->id])}}" aria-expanded="false">Contacts</a></li>
-                                @endforeach
+                                {{--@foreach($site as $s)--}}
+                                    {{--<li  role="presentation"><a  href="{{route('site_contacts' , ['id' => $site->id])}}" aria-expanded="false">Contacts</a></li>--}}
+                                {{--@endforeach--}}
 
-                                @foreach($site as $s)
-                                    <li  role="presentation" class=""><a  id="profile_tab_8" href="{{route('soh_list' , ['id' => $s->id])}}" aria-expanded="false">Manage Stock On Hand</a></li>
-                                @endforeach
+                                {{--@foreach($site as $s)--}}
+                                    <li  role="presentation" class=""><a  id="profile_tab_8" href="{{route('soh_list' , ['id' => $site->id])}}" aria-expanded="false">Manage Stock On Hand</a></li>
+                                {{--@endforeach--}}
 
-                                @foreach($site as $s)
-                                    <li role="presentation"  class=""><a id="profile_tab_9" href="{{route('capture_quantity_sold_list' , ['id' => $s->id])}}" aria-expanded="false">Manage Quantity Sold</a></li>
-                                @endforeach
+                                {{--@foreach($site as $s)--}}
+                                    <li role="presentation"  class=""><a id="profile_tab_9" href="{{route('capture_quantity_sold_list' , ['id' => $site->id])}}" aria-expanded="false">Manage Quantity Sold</a></li>
+                                {{--@endforeach--}}
 
-                                @foreach($site as $s)
-                                    <li role="presentation"  class="active"><a  id="profile_tab_10" href="{{route('uploads' , ['id' => $s->id])}}" aria-expanded="false">Documents</a></li>
-                                @endforeach
+                                {{--@foreach($site as $s)--}}
+                                    <li role="presentation"  class="active"><a  id="profile_tab_10" href="{{route('uploads' , ['id' => $site->id])}}" aria-expanded="false">Documents</a></li>
+                                {{--@endforeach--}}
 
-                                @foreach($site as $s)
-                                    <li role="presentation"  ><a  id="profile_tab_10" href="{{route('invoices.index' , ['id' => $s->id])}}" aria-expanded="false">Invoices</a></li>
-                                @endforeach
+                                {{--@foreach($site as $s)--}}
+                                    <li role="presentation"  ><a  id="profile_tab_10" href="{{route('invoices.index' , ['id' => $site->id])}}" aria-expanded="false">Invoices</a></li>
+                                {{--@endforeach--}}
 
-                                @foreach($site as $s)
-                                    <li role="presentation" class=""><a  id="profile_tab_10" role="tab" href="{{ route('site_report' , ['id' => $s->id]) }}" aria-expanded="false">Reports</a></li>
-                                @endforeach
+                                {{--@foreach($site as $s)--}}
+                                    <li role="presentation" class=""><a  id="profile_tab_10" role="tab" href="{{ route('site_report' , ['id' => $site->id]) }}" aria-expanded="false">Reports</a></li>
+                                {{--@endforeach--}}
                             </ul>
 
                             <div class="tab-content" id="myTabContent_7">
@@ -95,9 +95,9 @@
                                                 <div class="panel-body">
 
                                                 <div class="form-wrap">
-                                                @foreach($site as $s)
-                                                    <form action="{{route('upload_files' ,['id' => $s->id])}}" method="post" enctype="multipart/form-data">
-                                                @endforeach
+                                                {{--@foreach($site as $s)--}}
+                                                    <form action="{{route('upload_files' ,['id' => $site->id])}}" method="post" enctype="multipart/form-data">
+                                                {{--@endforeach--}}
                                                 @csrf
                                                 <div class="row">
                                                 <div class="col-md-8">

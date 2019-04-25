@@ -14,7 +14,6 @@ class SiteReportsController extends Controller
 		$this->middleware('auth');
 	}
 
-
     public function reports() {
 
     	$top_ten_highest_sales = DB::table('sites')
@@ -37,8 +36,8 @@ class SiteReportsController extends Controller
 
 	    $sales_by_sites = DB::table('sites')
 		                  ->leftJoin('quantity_solds' , 'quantity_solds.site_id' , '=' , 'sites.id')
-		                  ->join('business_groups' , 'business_groups.id' , '=' , 'sites.business_group_id')
-		                  ->select(DB::raw('SUM(quantity_solds.quantity_sold) AS sum_quantity_sold' ) , 'sites.name AS site_name' , 'sites.id AS site_id' , 'business_groups.id AS business_groups_id', 'sites.province AS site_province' ,'business_groups.name AS business_group_name' )
+//		                  ->join('business_groups' , 'business_groups.id' , '=' , 'sites.business_group_id')
+		                  ->select(DB::raw('SUM(quantity_solds.quantity_sold) AS sum_quantity_sold' ) , 'sites.name AS site_name' , 'sites.id AS site_id' ,  'sites.province AS site_province' )
 		                  ->groupBy('sites.name' , 'sites.province' )
 		                  ->orderBy('sum_quantity_sold' , 'DESC')
 	                      ->get();
@@ -100,10 +99,10 @@ class SiteReportsController extends Controller
 
 	    $sales_by_sites = DB::table('sites')
 	                        ->leftJoin('quantity_solds' , 'quantity_solds.site_id' , '=' , 'sites.id')
-	                        ->join('business_groups' , 'business_groups.id' , '=' , 'sites.business_group_id')
+//	                        ->join('business_groups' , 'business_groups.id' , '=' , 'sites.business_group_id')
 		                    ->where('quantity_solds.date_captured' , '>=' , $request->from)
 		                    ->where('quantity_solds.date_captured' , '<=' , $request->to)
-		                    ->select(DB::raw('SUM(quantity_solds.quantity_sold) AS sum_quantity_sold' ) , 'sites.name AS site_name' , 'sites.id AS site_id' , 'business_groups.id AS business_groups_id', 'sites.province AS site_province' ,'business_groups.name AS business_group_name' )
+		                    ->select(DB::raw('SUM(quantity_solds.quantity_sold) AS sum_quantity_sold' ) , 'sites.name AS site_name' , 'sites.id AS site_id' , 'sites.province AS site_province' )
 	                        ->groupBy('sites.name' , 'sites.province' )
 	                        ->orderBy('sum_quantity_sold' , 'DESC')
 	                        ->get();
@@ -165,10 +164,10 @@ class SiteReportsController extends Controller
 
 	    $sales_by_sites = DB::table('sites')
 	                        ->leftJoin('quantity_solds' , 'quantity_solds.site_id' , '=' , 'sites.id')
-	                        ->join('business_groups' , 'business_groups.id' , '=' , 'sites.business_group_id')
+//	                        ->join('business_groups' , 'business_groups.id' , '=' , 'sites.business_group_id')
 	                        ->where(DB::raw('YEAR(quantity_solds.date_captured)' ) , '=' , $request->from)
 		                    ->whereRaw( "QUARTER(quantity_solds.date_captured)  =  $request->to ")
-	                        ->select(DB::raw('SUM(quantity_solds.quantity_sold) AS sum_quantity_sold' ) , 'sites.name AS site_name' , 'sites.id AS site_id' , 'business_groups.id AS business_groups_id', 'sites.province AS site_province' ,'business_groups.name AS business_group_name' )
+	                        ->select(DB::raw('SUM(quantity_solds.quantity_sold) AS sum_quantity_sold' ) , 'sites.name AS site_name' , 'sites.id AS site_id' , 'sites.province AS site_province' )
 	                        ->groupBy('sites.name' , 'sites.province' )
 	                        ->orderBy('sum_quantity_sold' , 'DESC')
 	                        ->get();

@@ -20,6 +20,8 @@ class CreateEventsTable extends Migration
 	        $table->datetime('end_date');
 	        $table->unsignedInteger('user_id');
 	        $table->text('notes')->nullable();
+	        $table->unsignedInteger('site_id')->nullable();
+	        $table->string('event_type')->nullable();
 //	        $table->string('location')->change();
 //	        $table->text('notes')->change();
             $table->timestamps();

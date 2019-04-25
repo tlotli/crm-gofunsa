@@ -14,20 +14,19 @@
                         <div class="profile-box">
                             <div class="profile-cover-pic">
                                 <div class="">
-                                    @foreach($site as $s)
-                                        <h1 class="text-center" style="color : #000; padding-top: 60px">{{$s->site_name}}</h1>
-                                        {{--<p style="color: #000;" class="ml-30"><span class="fa fa-user"></span> <small style="font-size: 0.95rem ; color:#000">{{$s->contact_person}}</small> </p>--}}
-                                        {{--<p style="color: #000;" class="ml-30"><span class="fa fa-phone"></span> <small style="font-size: 0.95rem ; color:#000">{{$site->contact_number }}</small> </p>--}}
-                                        {{--<p style="color: #000" class="ml-30"><span class="fa fa-envelope"></span> <small  style=";font-size: 0.95rem ; color:#000">{{$site->contact_email }}</small> </p>--}}
-                                        <p style="color: #000; padding-bottom: 30px" class="ml-30"><span class="fa fa-map"></span> <small  style=";font-size: 0.95rem ; color:#000">{{$s->address .' , ' . $s->city . ' , ' . $s->province}}</small> </p>
-                                    @endforeach
+                                    {{--@foreach($site as $s)--}}
+                                    <h1 class="text-center" style="color : #000; padding-top: 60px">{{$site->name}}</h1>
+                                    <p style="color: #000;" class="ml-30"><span class="fa fa-user"></span> <small style="font-size: 0.95rem ; color:#000">{{$site->manager_name}}</small> </p>
+                                    <p style="color: #000;" class="ml-30"><span class="fa fa-phone"></span> <small style="font-size: 0.95rem ; color:#000">{{$site->manager_cellphone }}</small> </p>
+                                    <p style="color: #000" class="ml-30"><span class="fa fa-envelope"></span> <small  style=";font-size: 0.95rem ; color:#000">{{$site->manager_email }}</small> </p>
+                                    <p style="color: #000; padding-bottom: 30px" class="ml-30"><span class="fa fa-map"></span> <small  style=";font-size: 0.95rem ; color:#000">{{$site->address .' , ' . $site->city . ' , ' . $site->province}}</small> </p>
+                                    {{--@endforeach--}}
+
                                 </div>
                             </div>
                             <div class="profile-info text-center">
                                 <h5 class="block mt-10 mb-5 weight-500 capitalize-font txt-danger">Owned By</h5>
-                                @foreach($site as $s)
-                                    <h6 class="block capitalize-font pb-20">{{$s->owned_by . ' - ' . $s->business_type}}</h6>
-                                @endforeach
+                                <h6 class="block capitalize-font pb-20">{{$site->owner_name }}</h6>
                             </div>
                         </div>
                     </div>
@@ -51,9 +50,9 @@
                 <div class="panel-wrapper collapse in">
                     <div class="panel-body">
                         <div class="form-wrap">
-                            @foreach($site as $s)
-                                <form action="{{route('site_store_contacts' , ['id' => $s->id])}}" method="post">
-                            @endforeach
+                            {{--@foreach($site as $s)--}}
+                                <form action="{{route('site_store_contacts' , ['id' => $site->id])}}" method="post">
+                            {{--@endforeach--}}
                                     @csrf
                                     <div class="row ">
                                         <div class="col-md-6">
@@ -111,9 +110,9 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <button id="create" type="submit" class="btn btn-success mt-10"><span class="fa fa-plus"></span> Capture Contact</button>
-                                                @foreach($site as $s)
-                                                    <a href="{{route('site_contacts' ,['id' => $s->id])}}" class="btn btn-primary mt-10"><span class="fa fa-arrow-left"></span> Back </a>
-                                                @endforeach
+                                                {{--@foreach($site as $s)--}}
+                                                    <a href="{{route('site_contacts' ,['id' => $site->id])}}" class="btn btn-primary mt-10"><span class="fa fa-arrow-left"></span> Back </a>
+                                                {{--@endforeach--}}
                                             </div>
                                         </div>
                                     </div>

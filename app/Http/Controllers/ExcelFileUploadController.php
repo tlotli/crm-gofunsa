@@ -4,6 +4,7 @@ namespace GoFunCrm\Http\Controllers;
 
 use GoFunCrm\Imports\BusinessOwnersImport;
 use GoFunCrm\Imports\QuantitySoldImport;
+use GoFunCrm\Imports\SitesImport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Alert;
@@ -42,4 +43,21 @@ class ExcelFileUploadController extends Controller
 
 		return redirect()->back();
 	}
+
+
+	public function sites_uploads_view() {
+		return view('uploads.sites_upload');
+	}
+
+
+	public function sites_uploads_uploads(Request $request) {
+		Excel::import(new SitesImport() ,request()->file('file'));
+
+		SWAL::message('Success','Sites successfully uploaded','success',[
+			'timer'=>9000,
+		]);
+
+		return redirect()->back();
+	}
+
 }

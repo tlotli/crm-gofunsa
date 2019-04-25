@@ -25,7 +25,7 @@
                                 @csrf
                                 @method('POST')
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                                             <label class="control-label mb-10 text-left">Site Name</label>
                                             <input type="text" class="form-control" name="name" id="name" value="{{old('name')}}">
@@ -37,11 +37,12 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+
+                                    <div class="col-md-4">
                                         <div class="form-group {{ $errors->has('franchise_id') ? 'has-error' : '' }}">
                                             <label class="control-label mb-10 text-left">Franchise</label>
-                                            <select  name="franchise_id" id="franchise_id" class="form-control select2">
-                                                @foreach($franchise as $f)
+                                            <select name="franchise_id" id="franchise_id" class="form-control">
+                                                @foreach($franchises as $f)
                                                     <option value="{{$f->id}}">{{$f->name}}</option>
                                                 @endforeach
                                             </select>
@@ -53,27 +54,7 @@
                                         </div>
                                     </div>
 
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group {{ $errors->has('business_group_id') ? 'has-error' : '' }}">
-                                            <label class="control-label mb-10 text-left">Owned By</label>
-                                            <select  name="business_group_id" id="business_group_id" class="form-control select2">
-                                                @foreach($business_groups as $bg)
-                                                    <option value="{{$bg->id}}">{{$bg->name}}</option>
-                                                @endforeach
-                                            </select>
-                                            @if ($errors->has('business_group_id'))
-                                                <span class="text-danger" >
-                                                    <strong>{{ $errors->first('business_group_id') }}</strong>
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group {{ $errors->has('address') ? 'has-error' : '' }}">
                                             <label class="control-label mb-10 text-left">Address</label>
@@ -86,13 +67,29 @@
                                         </div>
                                     </div>
 
+                                </div>
+
+
+                                <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group {{ $errors->has('city') ? 'has-error' : '' }}">
                                             <label class="control-label mb-10 text-left">City</label>
-                                            <input type="text" class="form-control" name="city" id="contact_person" value="{{old('city')}}">
+                                            <input type="text" class="form-control" name="city" id="city" value="{{old('city')}}">
                                             @if ($errors->has('city'))
                                                 <span class="text-danger" >
                                                     <strong>{{ $errors->first('city') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group {{ $errors->has('surburb') ? 'has-error' : '' }}">
+                                            <label class="control-label mb-10 text-left">Surburb</label>
+                                            <input type="text" class="form-control" name="surburb" id="surburb" value="{{old('surburb')}}">
+                                            @if ($errors->has('surburb'))
+                                                <span class="text-danger" >
+                                                    <strong>{{ $errors->first('surburb') }}</strong>
                                                 </span>
                                             @endif
                                         </div>
@@ -117,6 +114,168 @@
 
 
 
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group {{ $errors->has('landline') ? 'has-error' : '' }}">
+                                            <label class="control-label mb-10 text-left">Landline</label>
+                                            <input type="text" class="form-control" name="landline" id="landline" value="{{old('landline')}}">
+                                            @if ($errors->has('landline'))
+                                                <span class="text-danger" >
+                                                    <strong>{{ $errors->first('landline') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group {{ $errors->has('cellphone') ? 'has-error' : '' }}">
+                                            <label class="control-label mb-10 text-left">Cellphone</label>
+                                            <input type="text" class="form-control" name="cellphone" id="cellphone" value="{{old('cellphone')}}">
+                                            @if ($errors->has('cellphone'))
+                                                <span class="text-danger" >
+                                                    <strong>{{ $errors->first('cellphone') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group {{ $errors->has('email_1') ? 'has-error' : '' }}">
+                                            <label class="control-label mb-10 text-left">Email 1</label>
+                                            <input type="text" class="form-control" name="email_1" id="email_1" value="{{old('email_1')}}">
+                                            @if ($errors->has('email_1'))
+                                                <span class="text-danger" >
+                                                    <strong>{{ $errors->first('email_1') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group {{ $errors->has('email_2') ? 'has-error' : '' }}">
+                                            <label class="control-label mb-10 text-left">Email 2</label>
+                                            <input type="text" class="form-control" name="email_2" id="email_2" value="{{old('email_2')}}">
+                                            @if ($errors->has('email_2'))
+                                                <span class="text-danger" >
+                                                    <strong>{{ $errors->first('email_2') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group {{ $errors->has('alternative') ? 'has-error' : '' }}">
+                                            <label class="control-label mb-10 text-left">Alternative No</label>
+                                            <input type="text" class="form-control" name="alternative" id="alternative" value="{{old('alternative')}}">
+                                            @if ($errors->has('alternative'))
+                                                <span class="text-danger" >
+                                                    <strong>{{ $errors->first('alternative') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group {{ $errors->has('gofun_bc') ? 'has-error' : '' }}">
+                                            <label class="control-label mb-10 text-left">Go&Fun Bc</label>
+                                            <input type="text" class="form-control" name="gofun_bc" id="gofun_bc" value="{{old('gofun_bc')}}">
+                                            @if ($errors->has('gofun_bc'))
+                                                <span class="text-danger" >
+                                                    <strong>{{ $errors->first('gofun_bc') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group {{ $errors->has('retail_group_bc') ? 'has-error' : '' }}">
+                                            <label class="control-label mb-10 text-left">Retail Group Bc</label>
+                                            <input type="text" class="form-control" name="retail_group_bc" id="retail_group_bc" value="{{old('retail_group_bc')}}">
+                                            @if ($errors->has('retail_group_bc'))
+                                                <span class="text-danger" >
+                                                    <strong>{{ $errors->first('retail_group_bc') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group {{ $errors->has('retailer') ? 'has-error' : '' }}">
+                                            <label class="control-label mb-10 text-left">Retailer</label>
+                                            <input type="text" class="form-control" name="retailer" id="retailer" value="{{old('retailer')}}">
+                                            @if ($errors->has('retailer'))
+                                                <span class="text-danger" >
+                                                    <strong>{{ $errors->first('retailer') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group {{ $errors->has('retailer_contact_no') ? 'has-error' : '' }}">
+                                            <label class="control-label mb-10 text-left">Retailer Contact No</label>
+                                            <input type="text" class="form-control" name="retailer_contact_no" id="retailer_contact_no" value="{{old('retailer_contact_no')}}">
+                                            @if ($errors->has('retailer_contact_no'))
+                                                <span class="text-danger" >
+                                                    <strong>{{ $errors->first('retailer_contact_no') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group {{ $errors->has('manager_1') ? 'has-error' : '' }}">
+                                            <label class="control-label mb-10 text-left">Manager Name</label>
+                                            <input type="text" class="form-control" name="manager_1" id="manager_1" value="{{old('manager_1')}}">
+                                            @if ($errors->has('manager_1'))
+                                                <span class="text-danger" >
+                                                    <strong>{{ $errors->first('manager_1') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group {{ $errors->has('manager_2') ? 'has-error' : '' }}">
+                                            <label class="control-label mb-10 text-left">Manager Name (Alternative)</label>
+                                            <input type="text" class="form-control" name="manager_2" id="manager_2" value="{{old('manager_2')}}">
+                                            @if ($errors->has('manager_2'))
+                                                <span class="text-danger" >
+                                                    <strong>{{ $errors->first('manager_2') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group {{ $errors->has('on_board') ? 'has-error' : '' }}">
+                                            <label class="control-label mb-10 text-left">On Board Status</label>
+                                            <select name="on_board" id="on_board" class="form-control">
+                                                <option value="YES">YES</option>
+                                                <option value="NO">NO</option>
+                                            </select>
+                                            @if ($errors->has('on_board'))
+                                                <span class="text-danger" >
+                                                    <strong>{{ $errors->first('on_board') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                            <label class="control-label mb-10 text-left">Notes</label>
+                                            <textarea name="notes" id="notes" class="form-control">{{old('notes')}}</textarea>
+                                    </div>
+                                </div>
 
                                 <div class="row">
                                     <div class="col-md-12">

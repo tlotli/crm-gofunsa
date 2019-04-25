@@ -7,9 +7,9 @@
         <li>
             <a href="javascript:void(0);" data-toggle="collapse" data-target="#dashboard_dr"><div class="pull-left"><i class="ti-stats-up mr-20"></i><span class="right-nav-text">Reports</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
             <ul id="dashboard_dr" class="collapse collapse-level-1">
-                <li>
-                    <a  href="{{route('franchise_reports')}}">Franchise</a>
-                </li>
+                {{--<li>--}}
+                    {{--<a  href="{{route('franchise_reports')}}">Franchise</a>--}}
+                {{--</li>--}}
                 <li>
                     <a  href="{{route('site_reports')}}">Site</a>
                 </li>
@@ -36,11 +36,11 @@
             <a href="javascript:void(0);" data-toggle="collapse" data-target="#ui_dr"><div class="pull-left"><i class="ti-briefcase mr-20 "></i><span class="right-nav-text">Customer Management</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
             <ul id="ui_dr" class="collapse collapse-level-1 two-col-list">
 
-                @can('business_owners.view' , \Illuminate\Support\Facades\Auth::user())
-                    <li>
-                        <a  href="{{route('business_owner.index')}}">Business Owners</a>
-                    </li>
-                @endcan
+                {{--@can('business_owners.view' , \Illuminate\Support\Facades\Auth::user())--}}
+                    {{--<li>--}}
+                        {{--<a  href="{{route('business_owner.index')}}">Business Owners</a>--}}
+                    {{--</li>--}}
+                {{--@endcan--}}
 
                     @can('franchises.view' , \Illuminate\Support\Facades\Auth::user())
                         <li>
@@ -48,11 +48,11 @@
                         </li>
                     @endcan
 
-                @can('business_groups.view' , \Illuminate\Support\Facades\Auth::user())
-                    <li>
-                        <a  href="{{route('business_group.index')}}">Manage Retail Groups</a>
-                    </li>
-                @endcan
+                {{--@can('business_groups.view' , \Illuminate\Support\Facades\Auth::user())--}}
+                    {{--<li>--}}
+                        {{--<a  href="{{route('business_group.index')}}">Manage Retail Groups</a>--}}
+                    {{--</li>--}}
+                {{--@endcan--}}
 
                 @can('sites.view' , \Illuminate\Support\Facades\Auth::user())
                     <li>
@@ -97,9 +97,9 @@
             <a href="javascript:void(0);" data-toggle="collapse" data-target="#ui_price"><div class="pull-left"><i class="ti-bolt mr-20 "></i><span class="right-nav-text">Quick Access</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
             <ul id="ui_price" class="collapse collapse-level-1 two-col-list">
                 <li>
-                    @can('business_owners.view' , \Illuminate\Support\Facades\Auth::user())
-                        <a  href="{{route('get_all_contacts')}}">Contacts</a>
-                    @endcan
+                    {{--@can('business_owners.view' , \Illuminate\Support\Facades\Auth::user())--}}
+                        {{--<a  href="{{route('get_all_contacts')}}">Contacts</a>--}}
+                    {{--@endcan--}}
 
                     <a  href="{{route('get_all_visitations')}}">Visitations</a>
 
@@ -115,9 +115,8 @@
             <a href="javascript:void(0);" data-toggle="collapse" data-target="#ui_upload"><div class="pull-left"><i class="ti-upload mr-20 "></i><span class="right-nav-text">Manage Uploads</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
             <ul id="ui_upload" class="collapse collapse-level-1 two-col-list">
                 <li>
-                    {{--<a  href="{{route('upload_view')}}">Upload Business Owners</a>--}}
-                    {{--<a  href="{{url('export')}}">Upload Stock Sold</a>--}}
-                    <a  href="{{route('file_export_view')}}">Bulk Upload Stock Quantity</a>
+                    <a  href="{{route('sites_uploads_view')}}">Bulk Upload Sites</a>
+                    {{--<a  href="{{route('file_export_view')}}">Bulk Upload Stock Quantity</a>--}}
                 </li>
             </ul>
         </li>

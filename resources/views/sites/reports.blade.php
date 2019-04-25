@@ -13,18 +13,18 @@
                         <div class="profile-box">
                             <div class="profile-cover-pic">
                                 <div class="">
-                                    @foreach($site as $s)
-                                        <h1 class="text-center" style="color : #000; padding-top: 60px">{{$s->site_name}}</h1>
-                                        <p style="color: #000; padding-bottom: 30px" class="ml-30"><span class="fa fa-map"></span> <small  style=";font-size: 0.95rem ; color:#000">{{$s->address .' , ' . $s->city . ' , ' . $s->province}}</small> </p>
-                                    @endforeach
+                                    {{--@foreach($site as $s)--}}
+                                        <h1 class="text-center" style="color : #000; padding-top: 60px">{{$site->name}}</h1>
+                                        {{--<p style="color: #000; padding-bottom: 30px" class="ml-30"><span class="fa fa-map"></span> <small  style=";font-size: 0.95rem ; color:#000">{{$site->address .' , ' . $site->city . ' , ' . $site->province}}</small> </p>--}}
+                                    {{--@endforeach--}}
 
                                 </div>
                             </div>
                             <div class="profile-info text-center">
                                 <h5 class="block mt-10 mb-5 weight-500 capitalize-font txt-danger">Owned By</h5>
-                                @foreach($site as $s)
-                                    <h6 class="block capitalize-font pb-20">{{$s->owned_by . ' - ' . $s->business_type}}</h6>
-                                @endforeach
+                                {{--@foreach($site as $s)--}}
+                                    <h6 class="block capitalize-font pb-20">{{$site->owner_name }}</h6>
+                                {{--@endforeach--}}
                             </div>
                         </div>
                     </div>
@@ -32,6 +32,7 @@
             </div>
         </div>
     </div>
+
 
     <div class="row">
         <div class="col-sm-6">
@@ -44,9 +45,7 @@
                 </div>
                 <div class="panel-wrapper collapse in">
                     <div class="panel-body">
-                        @foreach($site as $s)
-                            <form action="{{route('site_search' , ['id' => $s->id])}}" method="post">
-                        @endforeach
+                            <form action="{{route('site_search' , ['id' => $site->id])}}" method="post">
                             @csrf
                             <div class="form-wrap">
                                 <div class="row justify-content-center">

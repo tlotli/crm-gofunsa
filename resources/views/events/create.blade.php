@@ -39,21 +39,38 @@
                                             @endif
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group {{ $errors->has('location') ? 'has-error' : '' }}">
+                                            <label class="control-label mb-10 text-left">Select Site </label>
+                                            <select name="site_id" id="site_id" class="form-control">
+                                                @foreach($sites as $s)
+                                                    <option value="{{$s->id}}">{{$s->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group {{ $errors->has('location') ? 'has-error' : '' }}">
-                                            <label class="control-label mb-10 text-left">Location </label>
-                                            <input type="text" class="form-control" name="location" id="txtPlaces" value="{{old('location')}}">
-                                            @if ($errors->has('location'))
-                                                <span class="text-danger" >
-                                                    <strong>{{ $errors->first('location') }}</strong>
-                                                </span>
-                                            @endif
-                                            <input type="hidden" name="address_latitude" id="address-latitude" value="0" />
-                                            <input type="hidden" name="address_longitude" id="address-longitude" value="0" />
+                                            <label class="control-label mb-10 text-left">Event Type </label>
+                                            <select name="event_type" id="event_type" class="form-control">
+                                                <option value="activation">Activation</option>
+                                                <option value="bc_visit">Business Consultant Visit</option>
+                                                <option value="call">Call</option>
+                                                <option value="email">Email</option>
+                                                <option value="other">Other</option>
+                                            </select>
                                         </div>
                                     </div>
+
+
                                 </div>
+
+
+
 
                                 <div class="row">
                                     <div class="col-md-6">
@@ -104,7 +121,6 @@
                                         </div>
                                     </div>
                                 </div>
-
 
                                 <div class="row">
                                     <div class="col-md-12">
