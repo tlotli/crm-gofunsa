@@ -165,7 +165,7 @@ return [
 
 	    Spatie\Geocoder\GeocoderServiceProvider::class,
 
-	    Snowfire\Beautymail\BeautymailServiceProvider::class,
+//	    Snowfire\Beautymail\BeautymailServiceProvider::class,
 
 
 
