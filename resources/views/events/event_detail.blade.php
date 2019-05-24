@@ -40,7 +40,7 @@
                                                 <h5 class="block mt-10 mb-5 weight-500 capitalize-font txt-danger">Assigned To</h5>
                                                     <span class="block capitalize-font pb-20">
                                                         @foreach($users as $u)
-                                                            {{$u->name .' ,'}}
+                                                            {{$u->name . ' ' }}
                                                         @endforeach
                                                     </span>
                                             </div>

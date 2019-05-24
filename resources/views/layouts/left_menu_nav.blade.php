@@ -123,7 +123,7 @@
             <i class="zmdi zmdi-more"></i>
         </li>
         <li>
-            <a href="javascript:void(0);" data-toggle="collapse" data-target="#user_dr"><div class="pull-left"><i class=" ti-user mr-20 "></i><span class="right-nav-text ">User Management</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+            <a href="javascript:void(0);" data-toggle="collapse" data-target="#user_dr"><div class="pull-left"><i class="  ti-settings mr-20 "></i><span class="right-nav-text ">Settings Management</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
             <ul id="user_dr" class="collapse collapse-level-1 two-col-list">
                 @can('users.view_users' , \Illuminate\Support\Facades\Auth::user())
                     <li>
@@ -137,49 +137,71 @@
                     </li>
                 @endcan
 
+                @can('set_date_flag.view' , \Illuminate\Support\Facades\Auth::user())
+                    <li>
+                        <a href="{{route('validateSetDate')}}">Set Visitation Date Flag</a>
+                    </li>
+                @endcan
+
+                @can('franchises.view' , \Illuminate\Support\Facades\Auth::user())
+                    <li>
+                        <a  href="{{route('franchise.index')}}">Manage Franchises </a>
+                    </li>
+                @endcan
+
+                    @can('sites.restore_sites' , \Illuminate\Support\Facades\Auth::user())
+                        <li>
+                            <a href="{{route('deleted_sites')}}">Restore Deleted Sites</a>
+                        </li>
+                    @endcan
+
+                    <li>
+                        <a href="{{route('activity_log')}}">Activity Log</a>
+                    </li>
+
                 {{--<li>--}}
                     {{--<a href="{{route('permissions.index')}}">Permissions</a>--}}
                 {{--</li>--}}
             </ul>
         </li>
 
-        @can('set_date_flag.view' , \Illuminate\Support\Facades\Auth::user())
-            <li><hr class="light-grey-hr mb-10"/></li>
-            <li>
-                <a href="{{route('validateSetDate')}}"><div class="pull-left"><i class=" ti-alarm-clock mr-20"></i><span class="right-nav-text">Set Visitation Date Flag</span></div><div class="pull-right"></div><div class="clearfix"></div></a>
-            </li>
-        @endcan
+        {{--@can('set_date_flag.view' , \Illuminate\Support\Facades\Auth::user())--}}
+            {{--<li><hr class="light-grey-hr mb-10"/></li>--}}
+            {{--<li>--}}
+                {{--<a href="{{route('validateSetDate')}}"><div class="pull-left"><i class=" ti-alarm-clock mr-20"></i><span class="right-nav-text">Set Visitation Date Flag</span></div><div class="pull-right"></div><div class="clearfix"></div></a>--}}
+            {{--</li>--}}
+        {{--@endcan--}}
 
 
-        @can('sites.restore_sites' , \Illuminate\Support\Facades\Auth::user())
-            <li><hr class="light-grey-hr mb-10"/></li>
-            <li>
-                <a href="javascript:void(0);" data-toggle="collapse" data-target="#restore"><div class="pull-left"><i class="icon-reload mr-20 "></i><span class="right-nav-text ">Restore Management</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
-                <ul id="restore" class="collapse collapse-level-1 two-col-list">
-                        <li>
-                            <a href="{{route('deleted_sites')}}">Restore Sites</a>
-                        </li>
-                </ul>
-            </li>
-        @endcan
+        {{--@can('sites.restore_sites' , \Illuminate\Support\Facades\Auth::user())--}}
+            {{--<li><hr class="light-grey-hr mb-10"/></li>--}}
+            {{--<li>--}}
+                {{--<a href="javascript:void(0);" data-toggle="collapse" data-target="#restore"><div class="pull-left"><i class="icon-reload mr-20 "></i><span class="right-nav-text ">Restore Management</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>--}}
+                {{--<ul id="restore" class="collapse collapse-level-1 two-col-list">--}}
+                        {{--<li>--}}
+                            {{--<a href="{{route('deleted_sites')}}">Restore Sites</a>--}}
+                        {{--</li>--}}
+                {{--</ul>--}}
+            {{--</li>--}}
+        {{--@endcan--}}
 
 
-        <li><hr class="light-grey-hr mb-10"/></li>
-        <li>
-            <a  href="{{route('franchise.index')}}"><div class="pull-left"><i class="  ti-world mr-20"></i><span class="right-nav-text">Manage Franchises </span></div><div class="pull-right"></div><div class="clearfix"></div></a>
-        </li>
+        {{--<li><hr class="light-grey-hr mb-10"/></li>--}}
+        {{--<li>--}}
+            {{--<a  href="{{route('franchise.index')}}"><div class="pull-left"><i class="  ti-world mr-20"></i><span class="right-nav-text">Manage Franchises </span></div><div class="pull-right"></div><div class="clearfix"></div></a>--}}
+        {{--</li>--}}
 
 
-        <li><hr class="light-grey-hr mb-10"/></li>
-        <li>
-            <a href="javascript:void(0);" data-toggle="collapse" data-target="#activity_dr"><div class="pull-left"><i class=" ti-clipboard mr-20  "></i><span class="right-nav-text">View Activities</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
-            <ul id="activity_dr" class="collapse collapse-level-1 two-col-list">
-                <li>
-                    <a href="{{route('activity_log')}}">Activity Log</a>
-                </li>
+        {{--<li><hr class="light-grey-hr mb-10"/></li>--}}
+        {{--<li>--}}
+            {{--<a href="javascript:void(0);" data-toggle="collapse" data-target="#activity_dr"><div class="pull-left"><i class=" ti-clipboard mr-20  "></i><span class="right-nav-text">View Activities</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>--}}
+            {{--<ul id="activity_dr" class="collapse collapse-level-1 two-col-list">--}}
+                {{--<li>--}}
+                    {{--<a href="{{route('activity_log')}}">Activity Log</a>--}}
+                {{--</li>--}}
 
-            </ul>
-        </li>
+            {{--</ul>--}}
+        {{--</li>--}}
 
         <li><hr class="light-grey-hr mb-10"/></li>
         <li>
