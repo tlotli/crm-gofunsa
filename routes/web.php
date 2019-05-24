@@ -41,6 +41,8 @@ Route::resource('/business_owner' ,'BusinessOwnerController');
 ///////////////////////////////////////////////////Business Sites//////////////////////////////////////////////////////////////
 Route::resource('/business_sites' ,'SiteController');
 Route::get('/site_report/{id}' , 'SiteController@reports')->name('site_report');
+Route::get('/deleted_sites' , 'SiteController@deleted_sites')->name('deleted_sites');
+Route::post('/restore_sites/{id}' , 'SiteController@restore_sites')->name('restore_sites');
 Route::post('/site_search/{id}' , 'SiteController@site_search')->name('site_search');
 
 Route::post('/site_search_by_quater/{id}' , 'SiteController@site_search_by_quater')->name('site_search_by_quater');

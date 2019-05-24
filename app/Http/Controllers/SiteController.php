@@ -276,7 +276,31 @@ class SiteController extends Controller
      */
     public function destroy($id)
     {
-        //
+    	Site::destroy($id);
+
+	    SWAL::message('Success','Site was deleted','success',[
+		    'timer'=>9000,
+	    ]);
+
+	    return redirect()->back();
+    }
+
+
+    public function deleted_sites() {
+	    $sites = Site::onlyTrashed()->get();
+	    return view('sites.deleted_sites' , compact('sites'));
+    }
+
+    public function restore_sites($id) {
+		Site::withTrashed()
+				->where('id' ,$id)->restore();
+
+	    SWAL::message('Success','Site was successfully restored','success',[
+		    'timer'=>9000,
+	    ]);
+
+	    return redirect()->back();
+
     }
 
     public function reports($id) {

@@ -163,7 +163,9 @@ return [
         GoFunCrm\Providers\RouteServiceProvider::class,
 
 
-	    Spatie\Geocoder\GeocoderServiceProvider::class
+	    Spatie\Geocoder\GeocoderServiceProvider::class,
+
+	    Snowfire\Beautymail\BeautymailServiceProvider::class,
 
 
 

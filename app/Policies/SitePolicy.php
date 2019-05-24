@@ -73,9 +73,16 @@ class SitePolicy
      * @param  \GoFunCrm\Site  $site
      * @return mixed
      */
-    public function delete(User $user, Site $site)
+    public function delete(User $user)
     {
-        //
+	    foreach($user->roles as $role) {
+		    foreach($role->permissions as $permission) {
+			    if($permission->id == 37) {
+				    return true;
+			    }
+		    }
+	    }
+	    return false;
     }
 
     /**
@@ -85,9 +92,18 @@ class SitePolicy
      * @param  \GoFunCrm\Site  $site
      * @return mixed
      */
-    public function restore(User $user, Site $site)
+    public function restore(User $user)
     {
-        //
+
+	    foreach($user->roles as $role) {
+		    foreach($role->permissions as $permission) {
+			    if($permission->id == 38) {
+				    return true;
+			    }
+		    }
+	    }
+	    return false;
+
     }
 
     /**
@@ -97,8 +113,33 @@ class SitePolicy
      * @param  \GoFunCrm\Site  $site
      * @return mixed
      */
-    public function forceDelete(User $user, Site $site)
+    public function forceDelete(User $user)
     {
-        //
+
+	    foreach($user->roles as $role) {
+		    foreach($role->permissions as $permission) {
+			    if($permission->id == 37) {
+				    return true;
+			    }
+		    }
+	    }
+	    return false;
     }
+
+
+
+    public function restore_sites(User $user) {
+
+	    foreach($user->roles as $role) {
+		    foreach($role->permissions as $permission) {
+			    if($permission->id == 38) {
+				    return true;
+			    }
+		    }
+	    }
+	    return false;
+
+    }
+
+
 }

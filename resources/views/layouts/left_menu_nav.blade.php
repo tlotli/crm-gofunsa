@@ -8,9 +8,6 @@
             <a href="javascript:void(0);" data-toggle="collapse" data-target="#dashboard_dr"><div class="pull-left"><i class="ti-stats-up mr-20"></i><span class="right-nav-text">Reports</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
             <ul id="dashboard_dr" class="collapse collapse-level-1">
                 <li>
-                    <a  href="{{route('franchise_reports')}}">Franchise</a>
-                </li>
-                <li>
                     <a  href="{{route('site_reports')}}">Site</a>
                 </li>
 
@@ -42,11 +39,11 @@
                     {{--</li>--}}
                 {{--@endcan--}}
 
-                    @can('franchises.view' , \Illuminate\Support\Facades\Auth::user())
-                        <li>
-                            <a  href="{{route('franchise.index')}}">Manage Franchises</a>
-                        </li>
-                    @endcan
+                    {{--@can('franchises.view' , \Illuminate\Support\Facades\Auth::user())--}}
+                        {{--<li>--}}
+                            {{--<a  href="{{route('franchise.index')}}">Manage Franchises</a>--}}
+                        {{--</li>--}}
+                    {{--@endcan--}}
 
                 {{--@can('business_groups.view' , \Illuminate\Support\Facades\Auth::user())--}}
                     {{--<li>--}}
@@ -66,10 +63,10 @@
         @can('events.view' , \Illuminate\Support\Facades\Auth::user())
         <li><hr class="light-grey-hr mb-10"/></li>
             <li>
-                <a href="javascript:void(0);" data-toggle="collapse" data-target="#ui_ev"><div class="pull-left"><i class="ti-calendar mr-20 "></i><span class="right-nav-text">Manage Events</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+                <a href="javascript:void(0);" data-toggle="collapse" data-target="#ui_ev"><div class="pull-left"><i class="ti-calendar mr-20 "></i><span class="right-nav-text">Customer Contact</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
                 <ul id="ui_ev" class="collapse collapse-level-1 two-col-list">
                     <li>
-                        <a  href="{{route('events.index')}}">Event List</a>
+                        <a  href="{{route('events.index')}}">Customer Contact</a>
                     </li>
                 </ul>
             </li>
@@ -77,7 +74,7 @@
 
         <li><hr class="light-grey-hr mb-10"/></li>
         <li>
-            <a href="javascript:void(0);" data-toggle="collapse" data-target="#ui_ta"><div class="pull-left"><i class="ti-archive mr-20 "></i><span class="right-nav-text">Manage Tasks</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+            <a href="javascript:void(0);" data-toggle="collapse" data-target="#ui_ta"><div class="pull-left"><i class="ti-archive mr-20 "></i><span class="right-nav-text">Task Manager</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
             <ul id="ui_ta" class="collapse collapse-level-1 two-col-list">
                 <li>
                     @can('tasks.visitations_not_assigned' , \Illuminate\Support\Facades\Auth::user())
@@ -147,11 +144,31 @@
         </li>
 
         @can('set_date_flag.view' , \Illuminate\Support\Facades\Auth::user())
+            <li><hr class="light-grey-hr mb-10"/></li>
+            <li>
+                <a href="{{route('validateSetDate')}}"><div class="pull-left"><i class=" ti-alarm-clock mr-20"></i><span class="right-nav-text">Set Visitation Date Flag</span></div><div class="pull-right"></div><div class="clearfix"></div></a>
+            </li>
+        @endcan
+
+
+        @can('sites.restore_sites' , \Illuminate\Support\Facades\Auth::user())
+            <li><hr class="light-grey-hr mb-10"/></li>
+            <li>
+                <a href="javascript:void(0);" data-toggle="collapse" data-target="#restore"><div class="pull-left"><i class="icon-reload mr-20 "></i><span class="right-nav-text ">Restore Management</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+                <ul id="restore" class="collapse collapse-level-1 two-col-list">
+                        <li>
+                            <a href="{{route('deleted_sites')}}">Restore Sites</a>
+                        </li>
+                </ul>
+            </li>
+        @endcan
+
+
         <li><hr class="light-grey-hr mb-10"/></li>
         <li>
-            <a href="{{route('validateSetDate')}}"><div class="pull-left"><i class=" ti-alarm-clock mr-20"></i><span class="right-nav-text">Set Visitation Date Flag</span></div><div class="pull-right"></div><div class="clearfix"></div></a>
+            <a  href="{{route('franchise.index')}}"><div class="pull-left"><i class="  ti-world mr-20"></i><span class="right-nav-text">Manage Franchises </span></div><div class="pull-right"></div><div class="clearfix"></div></a>
         </li>
-        @endcan
+
 
         <li><hr class="light-grey-hr mb-10"/></li>
         <li>

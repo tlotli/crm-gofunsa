@@ -24,7 +24,7 @@ class SitesImport implements ToModel, WithHeadingRow
 
         return new Site([
 
-	        $address = Geocoder::getCoordinatesForAddress($row['physical_address']),
+			$address = Geocoder::getCoordinatesForAddress($row['physical_address']),
 
 	        'address' => $row['physical_address'],
 	        'name' => $row['site_name'],
@@ -49,14 +49,8 @@ class SitesImport implements ToModel, WithHeadingRow
 	        'user_id' => Auth::id() ,
 	        'address_latitude' => $address['lat'] ,
 	        'address_longitude' => $address['lng'] ,
-
-
-
         ]);
     }
-
-//
-
 
 	public function batchSize(): int
 	{

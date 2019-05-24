@@ -55,7 +55,7 @@
                                 {{--@endforeach--}}
 
                                 {{--@foreach($site as $s)--}}
-                                    <li  role="presentation" class=""><a  id="profile_tab_8" href="{{route('soh_list' , ['id' => $site->id])}}" aria-expanded="false">Manage Stock On Hand</a></li>
+                                    {{--<li  role="presentation" class=""><a  id="profile_tab_8" href="{{route('soh_list' , ['id' => $site->id])}}" aria-expanded="false">Manage Stock On Hand</a></li>--}}
                                 {{--@endforeach--}}
 
                                 {{--@foreach($site as $s)--}}

@@ -6,10 +6,26 @@
     <!-- Bootstrap Daterangepicker CSS -->
     <link href="{{asset('assets/vendors/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet" type="text/css"/>
 
+    <!-- select2 CSS -->
+    <link href="{{asset('assets/vendors/bower_components/select2/dist/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
 
+    <!-- switchery CSS -->
+    <link href="{{asset('assets/vendors/bower_components/switchery/dist/switchery.min.css')}}" rel="stylesheet" type="text/css"/>
 
+    <!-- bootstrap-select CSS -->
+    <link href="{{asset('assets/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css"/>
 
+    <!-- bootstrap-tagsinput CSS -->
+    <link href="{{asset('assets/vendors/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')}}" rel="stylesheet" type="text/css"/>
 
+    <!-- bootstrap-touchspin CSS -->
+    <link href="{{asset('assets/vendors/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css')}}" rel="stylesheet" type="text/css"/>
+
+    <!-- multi-select CSS -->
+    <link href="{{asset('assets/vendors/bower_components/multiselect/css/multi-select.css')}}" rel="stylesheet" type="text/css"/>
+
+    <!-- Bootstrap Switches CSS -->
+    <link href="{{asset('assets/vendors/bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css')}}" rel="stylesheet" type="text/css"/>
 @endsection
 
 @section('main-section')
@@ -19,7 +35,7 @@
                 <div class="panel-heading">
                     <div class="pull-left">
                         <h5 class="panel-title txt-dark mb-10">
-                            Add Event
+                            Add Customer Contact
                         </h5>
                     </div>
                     <div class="clearfix"></div>
@@ -30,19 +46,19 @@
                             <form action="{{route('events.store')}}" method="post">
                                 @csrf
                                 @method('POST')
-                                <div class="row ">
-                                    <div class="col-md-6">
-                                        <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
-                                            <label class="control-label mb-10 text-left">Event Name</label>
-                                            <input type="text" class="form-control" name="title" id="title" value="{{old('title')}}">
-                                            @if ($errors->has('title'))
-                                                <span class="text-danger" >
-                                                    <strong>{{ $errors->first('title') }}</strong>
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
+                                {{--<div class="row ">--}}
+                                    {{--<div class="col-md-6">--}}
+                                        {{--<div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">--}}
+                                            {{--<label class="control-label mb-10 text-left">Event Name</label>--}}
+                                            {{--<input type="text" class="form-control" name="title" id="title" value="{{old('title')}}">--}}
+                                            {{--@if ($errors->has('title'))--}}
+                                                {{--<span class="text-danger" >--}}
+                                                    {{--<strong>{{ $errors->first('title') }}</strong>--}}
+                                                {{--</span>--}}
+                                            {{--@endif--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
 
                                 <div class="row">
                                     <div class="col-md-6">
@@ -111,6 +127,26 @@
                                     </div>
                                 </div>
 
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group {{ $errors->has('user_id') ? 'has-error' : '' }}">
+                                            <label class="control-label mb-10">Assign Users</label>
+                                            <select name="user_id[]" class="select2 select2-multiple" multiple="multiple" data-placeholder="Click to assign users to events">
+                                                @foreach($users as $u)
+                                                    <option value="{{$u->id}}">{{$u->name}}</option>
+                                                @endforeach
+                                            </select>
+                                            @if ($errors->has('user_id'))
+                                                <span class="text-danger" >
+                                                    <strong>{{ $errors->first('user_id') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group {{ $errors->has('notes') ? 'has-error' : '' }}">
@@ -128,16 +164,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <div style="width: 100%; height: 100%" id="address-map"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <button id="create_button" class="btn btn-success mt-10"><span class="fa fa-plus"></span> Create Event</button>
+                                            <button id="create_button" class="btn btn-success mt-10"><span class="fa fa-plus"></span> Create </button>
                                             <a href="{{route('events.index')}}" id="back" class="btn btn-primary mt-10"><span class="fa fa-arrow-left"></span> Back </a>
                                         </div>
                                     </div>
@@ -160,7 +187,34 @@
     <script type="text/javascript" src="{{asset('assets/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')}}"></script>
     <script src="{{asset('assets/vendors/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
-    {{--<script src="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmnj82Z0gYPJekk2jaVrS4YfPH01Xf7vo&libraries=places"></script>--}}
+
+    <!-- Switchery JavaScript -->
+    <script src="{{asset('assets/vendors/bower_components/switchery/dist/switchery.min.js')}}"></script>
+    <!-- Select2 JavaScript -->
+    <script src="{{asset('assets/vendors/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
+
+    <!-- Bootstrap Select JavaScript -->
+    <script src="{{asset('assets/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
+
+    <!-- Bootstrap Tagsinput JavaScript -->
+    <script src="{{asset('assets/vendors/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js')}}"></script>
+
+    <!-- Multiselect JavaScript -->
+    <script src="{{asset('assets/vendors/bower_components/multiselect/js/jquery.multi-select.js')}}"></script>
+
+    <!-- Bootstrap Touchspin JavaScript -->
+    <script src="{{asset('assets/vendors/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')}}"></script>
+
+
+    <!-- Bootstrap Switch JavaScript -->
+    <script src="{{asset('assets/vendors/bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js')}}"></script>
+
+
+    {{--<!-- Form Advance Init JavaScript -->--}}
+    <script src="{{asset('assets/dist/js/form-advance-data.js')}}"></script>
+
+
+
 
     <script>
         $("#demo").click(function(){
@@ -213,20 +267,7 @@
 
     </script>
 
-    {{--<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize" async defer></script>--}}
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBr-MAhWkR_g1QlngFU8x6rUerxUYc3wgI&libraries=places"></script>
-
-    <script type="text/javascript">
-        google.maps.event.addDomListener(window, 'load', function () {
-            var places = new google.maps.places.Autocomplete(document.getElementById('txtPlaces'));
-            google.maps.event.addListener(places, 'place_changed', function () {
-
-            });
-        });
-    </script>
-
-    {{--<script src="{{asset('js/mapInput.js')}}"></script>--}}
 
 @endsection
 

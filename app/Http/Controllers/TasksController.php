@@ -12,6 +12,7 @@ use GoFunCrm\Visitation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Softon\SweetAlert\Facades\SWAL;
 use Facades\Billow\Utilities\SMS;
 
@@ -115,14 +116,19 @@ class TasksController extends Controller
 	    $task->assigned_by = Auth::id() ;
 	    $task->save();
 
+	    $get_assigned_users = User::find($request->assigned_to);
+	    $task = Task::find($task->id);
+
+		Mail::to($get_assigned_users)->send(new \GoFunCrm\Mail\AssignedToTask($task));
+
 		$log = new Log();
 		$log->description = Auth::user()->name . ' Assigned task to  '  . $user->name . ' to follow up on the following site ' .  $site->name ;
 		$log->log_type = 'Task';
 		$log->save();
 
 
-		$number = $user->telephone;
-		SMS::recipient($number)->content('Gofun ' . $task->notes)->send();
+//		$number = $user->telephone;
+//		SMS::recipient($number)->content('Gofun ' . $task->notes)->send();
 
 		SWAL::message('Success','Task successfully assigned','success',[
 			'timer'=>9000,

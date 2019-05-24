@@ -26,13 +26,25 @@
                                     <div class="panel-body  pa-0">
                                         <div class="profile-box">
                                             <div class="profile-cover-pic">
+
                                                 <div class="">
-                                                        <h1 class="text-center" style="color : #000; padding-top: 60px">{{$event->title}}</h1>
+                                                        <h1 class="text-center" style="color : #000; padding-top: 60px">Contact Type: {{ strtoupper($event->event_type) }}</h1>
                                                         <p style="color: #000;" class="ml-30"><span class="fa fa-clock-o"></span> <small style="font-size: 0.95rem ; color:#000">{{$event->start_date}}</small> </p>
                                                         <p style="color: #000;" class="ml-30"><span class="fa fa-clock-o"></span> <small style="font-size: 0.95rem ; color:#000">{{$event->end_date}}</small> </p>
                                                         <p style="color: #000" class="ml-30"><span class="fa fa-map-marker"></span> <small  style=";font-size: 0.95rem ; color:#000">{{$event->address}}</small> </p>
                                                 </div>
+
                                             </div>
+
+                                            <div class="profile-info text-center">
+                                                <h5 class="block mt-10 mb-5 weight-500 capitalize-font txt-danger">Assigned To</h5>
+                                                    <span class="block capitalize-font pb-20">
+                                                        @foreach($users as $u)
+                                                            {{$u->name .' ,'}}
+                                                        @endforeach
+                                                    </span>
+                                            </div>
+
                                             <div class="profile-info text-center">
                                                 <h5 class="block mt-10 mb-5 weight-500 capitalize-font txt-danger">Notes</h5>
                                                 <p class="block capitalize-font pb-20">{{$event->notes}}</p>

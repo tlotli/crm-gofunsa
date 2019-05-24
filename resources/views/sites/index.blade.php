@@ -89,9 +89,29 @@
                                             <td>{{$site->manager_2}}</td>
                                             <td>
                                                 @can('sites.update' , \Illuminate\Support\Facades\Auth::user())
-                                                    <a href="{{route('business_sites.edit' , ['id' => $site->id])}}"  title="" data-original-title="Edit Site" data-toggle="tooltip"> <span class="fa fa-pencil"></span></a>
+                                                    <a href="{{route('business_sites.edit' , ['id' => $site->id])}}"  title="" data-original-title="Edit Site" data-toggle="tooltip"> <span class="fa fa-pencil-square-o"></span></a>
                                                 @endcan
-                                                {{--<a href="{{route('visitations_list' , ['id' => $site->id])}}" data-original-title="View Site" data-toggle="tooltip"> <span style="margin-left: 10px" class="  fa fa-eye"></span></a>--}}
+
+
+                                                    <form id="delete-site-{{$site->id}}" method="post" action="{{route('business_sites.destroy' , ['id' => $site->id])}}" style="display: none">
+                                                        {{csrf_field()}}
+                                                        {{method_field('DELETE')}}
+                                                    </form>
+
+
+                                                    @can('sites.delete' , \Illuminate\Support\Facades\Auth::user())
+                                                        <a href=""  title="" data-original-title="Delete Site" data-toggle="tooltip"
+
+                                                           onclick="if(confirm('Are you sure you want to delete site ?')) {
+                                                                   event.preventDefault(); document.getElementById('delete-site-{{$site->id}}').submit();
+                                                                   }
+                                                                   else
+                                                                   {
+                                                                   event.preventDefault();
+                                                                   }"
+                                                        > <span class="zmdi zmdi-delete"></span></a>
+                                                    @endcan
+
                                             </td>
                                         </tr>
                                     @endforeach

@@ -30,4 +30,9 @@ class User extends Authenticatable
     	return $this->belongsToMany('GoFunCrm\Role' , 'role_users');
     }
 
+
+	public function events() {
+		return $this->belongsToMany('GoFunCrm\Event', 'event_users')->withTimestamps();
+	}
+
 }

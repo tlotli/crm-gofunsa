@@ -2,13 +2,20 @@
 
 namespace GoFunCrm\Http\Controllers;
 
+//use Illuminate\Notifications\Notification;
 use GoFunCrm\Event;
+use GoFunCrm\EventUser;
 use GoFunCrm\Log;
+use GoFunCrm\Notifications\AssignedToEvent;
 use GoFunCrm\Site;
+use GoFunCrm\User;
 use GoFunCrm\VisitationType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Softon\SweetAlert\Facades\SWAL;
 use Illuminate\Support\Facades\DB;
 use MaddHatter\LaravelFullcalendar\Facades\Calendar;
@@ -32,9 +39,10 @@ class EventsController extends Controller
     {
     	$events = DB::table('users')
 		          ->join('events' , 'events.user_id' , '=' , 'users.id')
-		          ->select('users.name AS name' , 'events.start_date AS start_date' , 'events.end_date AS end_date' , 'events.created_at AS created_at' , 'events.title AS title' ,'events.id AS id')
+		          ->select('users.name AS name' , 'events.start_date AS start_date' , 'events.end_date AS end_date' , 'events.created_at AS created_at' ,'events.id AS id')
 	              ->get();
-        return view('events.index' , compact('events'));
+
+        return view('events.index' , compact('events' ));
     }
 
     /**
@@ -45,7 +53,8 @@ class EventsController extends Controller
     public function create()
     {
     	$sites = Site::all();
-        return view('events.create' , compact('sites'));
+	    $users = User::all();
+        return view('events.create' , compact('sites' , 'users'));
     }
 
     /**
@@ -59,15 +68,15 @@ class EventsController extends Controller
 //    	dd($request->all());
 
         $this->validate($request , [
-        	'title' => 'required',
+        	'user_id' => 'required',
         	'start_date' => 'required',
         	'end_date' => 'required',
         	'site_id' => 'required',
         	'event_type' => 'required',
-//        	'event_type' => 'required',
+
         ],
 	    [
-	        	'title.required' => 'Please provide title',
+	        	'user_id.required' => 'Users not assigned to event',
 	        	'start_date.required' => 'Please provide start date',
 	        	'end_date.required' => 'Please provide end date',
 //		        'notes.required' => 'Please provide notes fo the event',
@@ -76,10 +85,12 @@ class EventsController extends Controller
 
 //	    $address = Geocoder::getCoordinatesForAddress($request->location);
 
+//	    dd($request->user_id);
+
 	    $event = new Event();
         $event->start_date = Carbon::parse($request->start_date);
         $event->end_date = Carbon::parse($request->end_date);
-		$event->title = $request->title ;
+//		$event->title = $request->title ;
 		$event->site_id = $request->site_id ;
 		$event->event_type = $request->event_type ;
 //		$event->address_latitude = $address['lat'] ;
@@ -87,6 +98,20 @@ class EventsController extends Controller
 		$event->notes = $request->notes ;
 		$event->user_id = Auth::id() ;
 		$event->save();
+
+
+	    $event->users()->sync($request->user_id);
+
+	    $get_assigned_users = DB::table('users')
+		                      ->join('event_users' , 'event_users.user_id' , '=' , 'users.id')
+		                      ->join('events' , 'event_users.event_id' , '=' , 'events.id')
+		                      ->where('event_users.event_id' , $event->id , 'users.name')
+	                          ->get();
+
+
+	    $event = Event::find($event->id);
+
+	    Mail::to($get_assigned_users)->send(new \GoFunCrm\Mail\AssignedToEvent($event));
 
 	    $log = new Log();
 	    $log-> description = Auth::user()->name . ' Added the following event  ' . $event->title ;
@@ -121,7 +146,20 @@ class EventsController extends Controller
     {
 	    $sites = Site::all();
         $event = Event::find($id);
-        return view('events.edit' , compact('event' , 'sites'));
+//        $users = DB::table('users')
+//	             ->leftJoin('events' , 'events.user_id' , '=' , 'users.id')
+//
+//	             ->select('users.*')
+//	             ->get();
+
+	    $users = User::all();
+
+        $event_users = EventUser::where('event_id' , $id)->get();
+
+//        dd($users);
+
+
+        return view('events.edit' , compact('event' , 'sites', 'users' , 'event_users'));
     }
 
     /**
@@ -136,7 +174,7 @@ class EventsController extends Controller
 //    	dd($request->all());
 
 	    $this->validate($request , [
-		    'title' => 'required',
+		    'user_id' => 'required',
 		    'start_date' => 'required',
 		    'end_date' => 'required',
 		    'site_id' => 'required',
@@ -144,7 +182,7 @@ class EventsController extends Controller
 //        	'event_type' => 'required',
 	    ],
 		    [
-			    'title.required' => 'Please provide title',
+			    'user_id.required' => 'Please provide title',
 			    'start_date.required' => 'Please provide start date',
 			    'end_date.required' => 'Please provide end date',
 //		        'notes.required' => 'Please provide notes fo the event',
@@ -156,7 +194,7 @@ class EventsController extends Controller
 	    $event = Event::find($id);
 	    $event->start_date = Carbon::parse($request->start_date);
 	    $event->end_date = Carbon::parse($request->end_date);
-	    $event->title = $request->title ;
+//	    $event->title = $request->title ;
 	    $event->site_id = $request->site_id ;
 	    $event->event_type = $request->event_type ;
 //		$event->address_latitude = $address['lat'] ;
@@ -164,6 +202,8 @@ class EventsController extends Controller
 	    $event->notes = $request->notes ;
 	    $event->user_id = Auth::id() ;
 	    $event->save();
+
+	    $event->users()->sync($request->user_id);
 
 	    $log = new Log();
 	    $log-> description = Auth::user()->name . ' Updated the following event  ' . $event->title;
@@ -197,13 +237,20 @@ class EventsController extends Controller
 
     public function view_calendar() {
 	    $events = [];
-	    $data = Event::all();
+//	    $data = Event::all();
+
+	    $data = DB::table('events')
+		        ->join('sites' , 'sites.id' , '=' , 'events.site_id')
+		        ->select('sites.name as site_name' , 'events.event_type' , 'events.start_date' , 'events.end_date' , 'events.id')
+		        ->get();
+
 	    if($data->count())
 	    {
 		    foreach ($data as $key => $value)
 		    {
 			    $events[] = Calendar::event(
-				    $value->title . ' - ' . strtoupper($value->event_type)    ,
+//				    $value->title . ' - ' . strtoupper($value->event_type)    ,
+				    $value->site_name . ' - ' . strtoupper($value->event_type)    ,
 				    true,
 				    new \DateTime($value->start_date),
 				    new \DateTime($value->end_date),
@@ -230,12 +277,19 @@ class EventsController extends Controller
     	$event = DB::table('sites')
 		         ->join('events' , 'events.site_id' , '=' , 'sites.id')
 		         ->where('events.id' , $id)
-		         ->select('events.start_date AS start_date' , 'events.title AS title' , 'events.end_date AS end_date' , 'sites.name AS site_name' , 'sites.address AS address' ,'sites.address AS address' , 'sites.address_latitude AS address_latitude' ,'sites.address_longitude AS address_longitude' ,'events.notes AS notes' )
+		         ->select('events.start_date AS start_date' , 'events.event_type AS event_type' , 'events.end_date AS end_date' , 'sites.name AS site_name' , 'sites.address AS address' ,'sites.address AS address' , 'sites.address_latitude AS address_latitude' ,'sites.address_longitude AS address_longitude' ,'events.notes AS notes' )
 		         ->first();
+
+
+    	$users = DB::table('users')
+		         ->join('event_users' , 'event_users.user_id' , '=' ,'users.id')
+		         ->where('event_id' , $id)
+		         ->select('users.*')
+		         ->get();
 //	             ->toArray();
 
 //    	dd(json_encode($event));
 
-    	return view('events.event_detail' , compact('event'));
+    	return view('events.event_detail' , compact('event' , 'users'));
     }
 }

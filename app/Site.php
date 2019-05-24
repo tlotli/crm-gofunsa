@@ -3,11 +3,16 @@
 namespace GoFunCrm;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Site extends Model
 {
-    protected $fillable = [
 
+	use SoftDeletes;
+
+	protected $dates = ['deleted_at'];
+
+    protected $fillable = [
 	    'name',
 	    'gofun_bc',
 	    'retail_group_bc',
@@ -32,7 +37,6 @@ class Site extends Model
 	    'on_board',
 	    'address_latitude',
 	    'address_longitude',
-
     ];
 
     public function franchise() {

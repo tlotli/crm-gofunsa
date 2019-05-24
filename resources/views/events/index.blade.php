@@ -12,9 +12,9 @@
                 <div class="panel-heading">
                     <div class="pull-left">
                         <h5 class="panel-title txt-dark mb-30">
-                            Manage Events
+                            Customer Contact
                         </h5>
-                        <a href="{{route('events.create')}}" id="create_button" class="btn btn-success"><span class="fa fa-plus"></span> Add Event</a>
+                        <a href="{{route('events.create')}}" id="create_button" class="btn btn-success"><span class="fa fa-plus"></span> Add New</a>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -26,7 +26,7 @@
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Event Name</th>
+                                        {{--<th>Event Name</th>--}}
                                         <th>Start Date</th>
                                         <th>End Date</th>
                                         <th>Added By</th>
@@ -37,7 +37,7 @@
                                     <tfoot>
                                     <tr>
                                         <th>#</th>
-                                        <th>Event Name</th>
+                                        {{--<th>Event Name</th>--}}
                                         <th>Start Date</th>
                                         <th>End Date</th>
                                         <th>Added By</th>
@@ -49,7 +49,7 @@
                                     @foreach($events as $e)
                                         <tr>
                                             <td>{{$loop->index + 1}}</td>
-                                            <td id="event_name">{{$e->title}}</td>
+                                            {{--<td id="event_name">{{$e->title}}</td>--}}
                                             <td id="start_date">{{$e->start_date}}</td>
                                             <td id="end_date">{{$e->end_date}}</td>
                                             <td id="created_by">{{$e->name}}</td>

@@ -33,6 +33,9 @@ class AuthServiceProvider extends ServiceProvider
 	    Gate::define('tasks.visitations_assigned', 'GoFunCrm\Policies\TaskPolicy@visitations_assigned');
 	    Gate::define('tasks.assigned_tasks', 'GoFunCrm\Policies\TaskPolicy@assigned_tasks');
 
+
+	    Gate::define('sites.restore_sites' , 'GoFunCrm\Policies\SitePolicy@restore_sites');
+
 	    Gate::resource('roles', 'GoFunCrm\Policies\RolePolicy');
 	    Gate::resource('business_groups', 'GoFunCrm\Policies\BusinessGroupPolicy');
 	    Gate::resource('business_owners', 'GoFunCrm\Policies\BusinessOwnerPolicy');
